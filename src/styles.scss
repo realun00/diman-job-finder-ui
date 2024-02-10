@@ -1,3 +1,48 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Define the Tailwind CSS colors
+$tailwind-colors: (
+  'gray': #eaede7,
+  'black': #000000,
+  'orange': #e98f0a,
+  'green': #4b7367,
+  'red': #d33e3e,
+);
+
+$job-finder-diman-primary: mat.define-palette(mat.$indigo-palette);
+$job-finder-diman-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$job-finder-diman-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$job-finder-diman-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $job-finder-diman-primary,
+      accent: $job-finder-diman-accent,
+      warn: $job-finder-diman-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($job-finder-diman-theme);
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
