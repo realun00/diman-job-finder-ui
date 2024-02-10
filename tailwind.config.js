@@ -54,8 +54,7 @@ module.exports = {
     function customGradientUtilities({ addUtilities }) {
       const newUtilities = {
         '.gradient-slideshow-arrows': {
-          backgroundImage:
-            'linear-gradient(transparent 25%, rgba(234, 237, 231, 0.5) 50%, transparent 75%)',
+          backgroundImage: 'linear-gradient(transparent 25%, rgba(234, 237, 231, 0.5) 50%, transparent 75%)',
         },
       };
       addUtilities(newUtilities, ['hover']);
