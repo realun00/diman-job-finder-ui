@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "prettier": "npx prettier --write .",
     "commitlint": "npx --no -- commitlint --edit",
-    "lint-staged": "npx lint-staged"
+    "lint-staged": "npx lint-staged",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
