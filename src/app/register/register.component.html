@@ -1,0 +1,79 @@
+<h1 class="my-2 text-center text-[24px] font-semibold">REGISTER FORM</h1>
+<mat-tab-group (selectedTabChange)="onTabChange($event)">
+  <mat-tab label="User">
+    <form class="login-form mt-3 flex w-full flex-col gap-3" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="Username/email" formControlName="username" [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="registerForm.get('username')?.hasError('required')">
+          Username <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input
+          type="password"
+          matInput
+          placeholder="Password"
+          formControlName="password"
+          [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input type="text" matInput placeholder="First Name" formControlName="firstName" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input type="text" matInput placeholder="Last Name" formControlName="lastName" />
+      </mat-form-field>
+      <button type="submit" mat-raised-button>Create account</button>
+      <span class="my-2">Already a user? <a class="font-semibold" routerLink="/login">Login</a></span>
+    </form>
+  </mat-tab>
+  <mat-tab label="Organization">
+    <form class="login-form mt-3 flex w-full flex-col gap-3" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="Username/email" formControlName="username" [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="registerForm.get('username')?.hasError('required')">
+          Username <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input
+          type="password"
+          matInput
+          placeholder="Password"
+          formControlName="password"
+          [errorStateMatcher]="matcher" />
+        <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Company Name</mat-label>
+        <input type="text" matInput placeholder="Company Name" formControlName="firstName" />
+      </mat-form-field>
+      <button type="submit" mat-raised-button>Create organization</button>
+      <span class="my-2">Already a user? <a class="font-semibold" routerLink="/login">Login</a></span>
+    </form>
+  </mat-tab>
+</mat-tab-group>

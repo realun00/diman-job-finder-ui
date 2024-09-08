@@ -1,0 +1,19 @@
+<form class="login-form flex w-full flex-col gap-3" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h1 class="my-2 text-center text-[24px] font-semibold">LOGIN FORM</h1>
+  <mat-form-field>
+    <mat-label>Username/email</mat-label>
+    <input matInput placeholder="Username/email" formControlName="username" [errorStateMatcher]="matcher" />
+    <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
+      Username/email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input type="password" matInput placeholder="Password" formControlName="password" [errorStateMatcher]="matcher" />
+    <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+      Password is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <button type="submit" mat-raised-button>Login</button>
+  <span class="my-2">Don't have an account? <a class="font-semibold" routerLink="/register">Register</a></span>
+</form>

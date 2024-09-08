@@ -230,6 +230,15 @@ footer a {
   margin-right: 4px;
 }
 
+.app-drawer {
+  button {
+    background-color: transparent;
+
+    --mat-mdc-button-persistent-ripple-color: transparent;
+    --mat-mdc-button-ripple-color: transparent;
+  }
+}
+
 svg#clouds {
   position: fixed;
   bottom: -160px;
