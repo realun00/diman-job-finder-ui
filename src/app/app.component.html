@@ -1,4 +1,4 @@
-<app-header (toggleDrawerEvent)="toggleDrawer()"></app-header>
+<app-header [user]="user" (toggleDrawerEvent)="toggleDrawer()"></app-header>
 <mat-drawer-container autosize>
   <mat-drawer
     class="app-drawer"
@@ -20,4 +20,3 @@
     </div>
   </mat-drawer-content>
 </mat-drawer-container>
-<!-- <router-outlet></router-outlet> -->

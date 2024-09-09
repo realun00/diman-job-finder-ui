@@ -6,7 +6,7 @@
     <span class="mt-[7px]">Diman Job Finder</span>
   </div>
   <div>
-    <button mat-icon-button class="favorite-icon" aria-label="toggle favorites">
+    <button *ngIf="user" mat-icon-button class="favorite-icon" aria-label="toggle favorites">
       <mat-icon>favorite</mat-icon>
     </button>
     <button mat-icon-button class="user-icon" aria-label="toggle user">

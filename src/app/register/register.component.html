@@ -4,7 +4,7 @@
     <form class="login-form mt-3 flex w-full flex-col gap-3" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <mat-form-field>
         <mat-label>Username</mat-label>
-        <input matInput placeholder="Username/email" formControlName="username" [errorStateMatcher]="matcher" />
+        <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="matcher" />
         <mat-error *ngIf="registerForm.get('username')?.hasError('required')">
           Username <strong>required</strong>
         </mat-error>
@@ -37,14 +37,18 @@
         <input type="text" matInput placeholder="Last Name" formControlName="lastName" />
       </mat-form-field>
       <button type="submit" mat-raised-button>Create account</button>
-      <span class="my-2">Already a user? <a class="font-semibold" routerLink="/login">Login</a></span>
+      <span class="my-2 text-right">Already a user? <a class="font-semibold" routerLink="/login">Login</a></span>
+      <span class="mb-2 text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
+      <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
+        >Your registration was successfull!</span
+      >
     </form>
   </mat-tab>
   <mat-tab label="Organization">
     <form class="login-form mt-3 flex w-full flex-col gap-3" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <mat-form-field>
-        <mat-label>Username</mat-label>
-        <input matInput placeholder="Username/email" formControlName="username" [errorStateMatcher]="matcher" />
+        <mat-label>Company Name</mat-label>
+        <input matInput placeholder="Company Name" formControlName="username" [errorStateMatcher]="matcher" />
         <mat-error *ngIf="registerForm.get('username')?.hasError('required')">
           Username <strong>required</strong>
         </mat-error>
@@ -68,12 +72,12 @@
           Password is <strong>required</strong>
         </mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <mat-label>Company Name</mat-label>
-        <input type="text" matInput placeholder="Company Name" formControlName="firstName" />
-      </mat-form-field>
       <button type="submit" mat-raised-button>Create organization</button>
-      <span class="my-2">Already a user? <a class="font-semibold" routerLink="/login">Login</a></span>
+      <span class="my-2 text-right">Already a user? <a class="font-semibold" routerLink="/login">Login</a></span>
+      <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
+      <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
+        >Your registration was successfull!</span
+      >
     </form>
   </mat-tab>
 </mat-tab-group>

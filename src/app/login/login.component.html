@@ -16,4 +16,6 @@
   </mat-form-field>
   <button type="submit" mat-raised-button>Login</button>
   <span class="my-2">Don't have an account? <a class="font-semibold" routerLink="/register">Register</a></span>
+  <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
+  <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess">You logged in successfully!</span>
 </form>

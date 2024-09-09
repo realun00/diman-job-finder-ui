@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Router } from '@angular/router';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -17,13 +19,21 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
+  // Error message to be displayed after form submission
+  submitError: string | null = null;
+  submitSuccess = false;
+  currentTab = 0;
+
+  http = inject(HttpClient);
+  router = inject(Router);
+
   registerForm = this.fb.group({
     username: ['', Validators.required],
     email: ['', Validators.required],
     password: ['', Validators.required],
-    firstName: [''],
-    lastName: [''],
-    roles: this.fb.control<string[]>(['USER']), // Initialize as string array
+    firstName: '',
+    lastName: '',
+    role: ['USER'], // Initialize as an array to avoid issues
   });
 
   matcher = new MyErrorStateMatcher();
@@ -31,16 +41,56 @@ export class RegisterComponent {
   constructor(private fb: FormBuilder) {}
 
   onSubmit(): void {
-    console.log('submitted form', this.registerForm.value);
+    if (this.registerForm.invalid) {
+      this.submitError = 'Please fill out all required fields.';
+      this.submitSuccess = false;
+      return;
+    } else {
+      this.submitError = '';
+    }
+
+    if (this.registerForm.status === 'VALID') {
+      console.log('submitted form', this.registerForm.getRawValue());
+      this.http.post('http://localhost:5000/auth/registration', this.registerForm.value).subscribe({
+        next: response => {
+          console.log('Registration successful', response);
+          // this.resetComponentState();
+          this.submitSuccess = true;
+
+          // Set a timeout before navigating
+          setTimeout(() => {
+            this.submitSuccess = false;
+            this.router.navigateByUrl('/login');
+          }, 1000); // 500 milliseconds delay
+        },
+        error: response => {
+          console.error('Error during registration', response?.error?.message);
+          this.submitSuccess = false;
+          this.submitError = `${response?.error?.message || 'Registration failed. Please try again later.'}`; // Set error message
+        },
+      });
+    }
   }
 
   onTabChange(event: MatTabChangeEvent): void {
-    if (event.index === 0) {
-      // User tab
-      this.registerForm.patchValue({ roles: ['USER'] });
-    } else if (event.index === 1) {
-      // Organization tab
-      this.registerForm.patchValue({ roles: ['ORGANIZATION'] });
-    }
+    this.currentTab = event.index;
+    this.resetComponentState();
+  }
+
+  // Method to reset the entire component state
+  resetComponentState(): void {
+    this.registerForm.reset({
+      username: '',
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      role: this.currentTab === 0 ? 'USER' : 'ORGANIZATION',
+    });
+    this.registerForm.markAsPristine();
+    this.registerForm.markAsUntouched();
+
+    this.submitError = null;
+    this.submitSuccess = false;
   }
 }

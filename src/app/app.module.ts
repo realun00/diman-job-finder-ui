@@ -18,6 +18,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
 
 import { FormsModule } from '@angular/forms';
 
@@ -38,6 +39,7 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     MatButtonModule,
     MatTabsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
