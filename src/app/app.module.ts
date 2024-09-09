@@ -27,7 +27,8 @@ import { AccountComponent } from './account/account.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
-import { JobItemComponent } from './job-item/job-item.component'; // Adjust path as necessary
+import { JobItemComponent } from './job-item/job-item.component';
+import { FavoriteJobsComponent } from './favorite-jobs/favorite-jobs.component'; // Adjust path as necessary
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { JobItemComponent } from './job-item/job-item.component'; // Adjust path
     JobsComponent,
     AccountComponent,
     JobItemComponent,
+    FavoriteJobsComponent,
   ],
   imports: [
     BrowserModule,

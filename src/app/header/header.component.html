@@ -6,7 +6,13 @@
     <button [routerLink]="'/home'" class="mt-[7px]">Diman Job Finder</button>
   </div>
   <div>
-    <button *ngIf="user" mat-icon-button class="favorite-icon" aria-label="toggle favorites" (click)="closeDrawer()">
+    <button
+      *ngIf="user"
+      mat-icon-button
+      class="favorite-icon"
+      aria-label="toggle favorites"
+      [routerLink]="'/favorite-jobs'"
+      (click)="closeDrawer()">
       <mat-icon>favorite</mat-icon>
     </button>
     <button mat-icon-button class="user-icon" aria-label="toggle user" (click)="accountBtnAction()">

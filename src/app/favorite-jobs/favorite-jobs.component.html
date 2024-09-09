@@ -1,0 +1,5 @@
+<ul class="flex w-full flex-col gap-3">
+  <li *ngFor="let job of jobs; trackBy: trackById">
+    <app-job-item [job]="job"></app-job-item>
+  </li>
+</ul>
