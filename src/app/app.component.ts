@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.getData().subscribe(user => {
+    this.authService.currentUser$.subscribe(user => {
       this.user = user;
     });
   }
@@ -23,5 +23,13 @@ export class AppComponent implements OnInit {
 
   toggleDrawer() {
     this.drawer.toggle(); // Open/close drawer
+  }
+
+  closeDrawer() {
+    this.drawer.close(); // close drawer
+  }
+
+  logout(): void {
+    this.authService.logout(); // Call the logout method from AuthService
   }
 }

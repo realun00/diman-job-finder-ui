@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-content>
+    <div class="flex w-full flex-wrap items-center justify-between gap-2">
+      <h3 class="text-[24px] font-bold">{{ job.title }}</h3>
+      <div class="flex items-center justify-between gap-2">
+        <!-- Add Task Button -->
+        <button mat-button>
+          <mat-icon>add_task</mat-icon>
+        </button>
+        <!-- Like Button -->
+        <button mat-button (click)="toggleLike()">
+          <mat-icon>{{ job.isLiked ? 'favorite' : 'favorite_outline' }}</mat-icon>
+        </button>
+      </div>
+    </div>
+    <p>{{ job.description }}</p>
+    <div class="flex w-full flex-wrap items-center justify-between gap-2">
+      <p>
+        posted by <span class="font-semibold">{{ job.authorName }}</span>
+      </p>
+      <p>
+        liked <span class="font-semibold">{{ job.likes }} times</span>
+      </p>
+    </div>
+  </mat-card-content>
+</mat-card>

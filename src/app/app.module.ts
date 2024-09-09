@@ -17,13 +17,28 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
 
 import { FormsModule } from '@angular/forms';
+import { AccountComponent } from './account/account.component';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
+import { JobItemComponent } from './job-item/job-item.component'; // Adjust path as necessary
 
 @NgModule({
-  declarations: [AppComponent, RegisterComponent, LoginComponent, HomeComponent, JobsComponent],
+  declarations: [
+    AppComponent,
+    RegisterComponent,
+    LoginComponent,
+    HomeComponent,
+    JobsComponent,
+    AccountComponent,
+    JobItemComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -40,8 +55,9 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatTabsModule,
     HttpClientModule,
+    MatCardModule,
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

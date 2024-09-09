@@ -1,4 +1,4 @@
-<app-header [user]="user" (toggleDrawerEvent)="toggleDrawer()"></app-header>
+<app-header [user]="user" (closeDrawerEvent)="closeDrawer()" (toggleDrawerEvent)="toggleDrawer()"></app-header>
 <mat-drawer-container autosize>
   <mat-drawer
     class="app-drawer"
@@ -7,15 +7,20 @@
     mode="over"
     position="start">
     <mat-nav-list>
-      <mat-list-item>
-        <button mat-button><mat-icon>home</mat-icon> Home</button>
+      <mat-list-item (click)="toggleDrawer()" [routerLink]="'/home'">
+        <button mat-button>
+          <mat-icon>{{ user ? 'cases' : 'home' }}</mat-icon> {{ user ? 'Jobs' : 'Home' }}
+        </button>
+      </mat-list-item>
+      <mat-list-item *ngIf="user" (click)="toggleDrawer(); logout()">
+        <button mat-button><mat-icon>person</mat-icon> Logout</button>
       </mat-list-item>
     </mat-nav-list>
   </mat-drawer>
   <mat-drawer-content>
     <div class="content w-full" role="main">
       <div class="flex w-full justify-center">
-        <router-outlet />
+        <router-outlet></router-outlet>
       </div>
     </div>
   </mat-drawer-content>
