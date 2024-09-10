@@ -1,24 +1,38 @@
-<mat-card>
-  <mat-card-content>
-    <div class="flex w-full flex-wrap items-center justify-between gap-2">
-      <h3 class="text-[24px] font-bold">{{ job.title }}</h3>
-      <div class="flex items-center justify-between gap-2">
-        <button mat-button (click)="openDialog()">
-          <mat-icon>add_task</mat-icon>
-        </button>
-        <button mat-button (click)="toggleLike()">
-          <mat-icon>{{ job.isLiked ? 'favorite' : 'favorite_outline' }}</mat-icon>
-        </button>
+<div
+  [matBadge]="job.authorName === user.username ? 'OWNER' : ''"
+  matBadgeSize="large"
+  matBadgePosition="before"
+  matBadgeOverlap="true"
+  class="custom-badge"
+  [ngClass]="job.authorName === user.username ? 'badge-owned' : ''">
+  <mat-card>
+    <mat-card-content>
+      <div class="flex w-full flex-wrap items-center justify-between gap-2">
+        <h3 class="text-[24px] font-bold">{{ job.title }}</h3>
+        <div class="flex items-center justify-between gap-2">
+          <button mat-button *ngIf="job.authorName === user.username" (click)="edit()">
+            <mat-icon class="text-blue-500">edit</mat-icon>
+          </button>
+          <button mat-button *ngIf="job.authorName === user.username" (click)="remove()">
+            <mat-icon class="text-red">delete</mat-icon>
+          </button>
+          <button mat-button *ngIf="role === 'USER'" (click)="apply()">
+            <mat-icon>add_task</mat-icon>
+          </button>
+          <button *ngIf="job.authorName !== user.username" mat-button (click)="toggleLike()">
+            <mat-icon class="text-red">{{ job.isLiked ? 'favorite' : 'favorite_outline' }}</mat-icon>
+          </button>
+        </div>
       </div>
-    </div>
-    <p>{{ job.description }}</p>
-    <div class="flex w-full flex-wrap items-center justify-between gap-2">
-      <p>
-        posted by <span class="font-semibold">{{ job.authorName }}</span>
-      </p>
-      <p>
-        liked <span class="font-semibold">{{ job.likes }} times</span>
-      </p>
-    </div>
-  </mat-card-content>
-</mat-card>
+      <p>{{ job.description }}</p>
+      <div class="flex w-full flex-wrap items-center justify-between gap-2">
+        <p>
+          posted by <span class="font-semibold">{{ job.authorName }}</span>
+        </p>
+        <p>
+          liked <span class="font-semibold">{{ job.likes }} times</span>
+        </p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -23,6 +23,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class JobApplyComponent {
   @Input() job: any; // Receive job data
   @Input() dialogRef: MatDialogRef<any> | null = null; // Dialog reference to close the dialog
+  @Input() formName: any; // Receive formName
 
   // Error message to be displayed after form submission
   submitError: string | null = null;

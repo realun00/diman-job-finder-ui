@@ -1,5 +1,5 @@
 <ul class="flex w-full flex-col gap-5">
   <li *ngFor="let job of jobs; trackBy: trackById">
-    <app-job-item [job]="job"></app-job-item>
+    <app-job-item (jobDeleted)="onJobDeleted($event)" (jobEdited)="onJobEdited($event)" [job]="job"></app-job-item>
   </li>
 </ul>

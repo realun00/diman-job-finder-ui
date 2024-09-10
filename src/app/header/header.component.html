@@ -7,7 +7,7 @@
   </div>
   <div>
     <button
-      *ngIf="user"
+      *ngIf="user && user?.roles[0] === 'USER'"
       mat-icon-button
       class="favorite-icon"
       aria-label="toggle favorites"

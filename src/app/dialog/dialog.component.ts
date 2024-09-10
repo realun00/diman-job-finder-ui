@@ -38,6 +38,8 @@ export class DialogComponent implements OnInit {
     if (componentRef.instance && dialogData) {
       (componentRef.instance as any).job = dialogData; // Ensure type safety if necessary
       (componentRef.instance as any).dialogRef = this.dialogRef; // Pass dialog reference if needed
+      (componentRef.instance as any).formName = this.data.formName; // Pass the formName to the child component
+      (componentRef.instance as any).emitter = this?.data?.emitter; // Pass the emitter to the child component
     }
   }
 

@@ -1,0 +1,7 @@
+<form [attr.id]="formName" class="flex w-full flex-col gap-3" (ngSubmit)="onSubmit()">
+  <span>Are you sure that you would like to delete {{ job.title }}</span>
+  <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
+  <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
+    >{{ job.title }} has been deleted successfully!</span
+  >
+</form>

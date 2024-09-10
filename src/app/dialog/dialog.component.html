@@ -7,7 +7,7 @@
     {{ data.cancelButtonText || 'Cancel' }}
   </button>
   <button
-    form="jobApplyForm"
+    [attr.form]="data.formName"
     type="submit"
     color="primary"
     mat-button

@@ -10,16 +10,17 @@ import { ApplicationsComponent } from './applications/applications.component';
 import { FavoriteJobsComponent } from './favorite-jobs/favorite-jobs.component';
 import { AccountComponent } from './account/account.component';
 
-import { AuthGuard } from './auth.guard'; // Import the auth guard
-import { GuestGuard } from './guest.guard'; // Import the guest guard
+import { AuthGuard } from './guards/auth.guard'; // Import the auth guard
+import { GuestGuard } from './guards/guest.guard'; // Import the guest guard
+import { UserGuard } from './guards/user-access.guard';
 
 const routes: Routes = [
   { path: 'register', component: RegisterComponent, canActivate: [GuestGuard] }, // Apply guest guard
   { path: 'login', component: LoginComponent, canActivate: [GuestGuard] }, // Apply guest guard
   { path: 'home', component: HomeComponent },
   { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard] }, // Apply auth guard
-  { path: 'applications', component: ApplicationsComponent, canActivate: [AuthGuard] }, // Apply auth guard
-  { path: 'favorite-jobs', component: FavoriteJobsComponent, canActivate: [AuthGuard] }, // Apply auth guard
+  { path: 'applications', component: ApplicationsComponent, canActivate: [AuthGuard, UserGuard] }, // Apply auth guard
+  { path: 'favorite-jobs', component: FavoriteJobsComponent, canActivate: [AuthGuard, UserGuard] }, // Apply auth guard
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard] }, // Apply auth guard
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },

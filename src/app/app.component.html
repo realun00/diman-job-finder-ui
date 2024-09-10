@@ -12,8 +12,11 @@
           <mat-icon>{{ user ? 'cases' : 'home' }}</mat-icon> {{ user ? 'Jobs' : 'Home' }}
         </button>
       </mat-list-item>
-      <mat-list-item (click)="toggleDrawer()" [routerLink]="'/applications'">
+      <mat-list-item *ngIf="role === 'USER'" (click)="toggleDrawer()" [routerLink]="'/applications'">
         <button mat-button><mat-icon>apps</mat-icon> Applications</button>
+      </mat-list-item>
+      <mat-list-item *ngIf="role === 'ORGANIZATION'" (click)="toggleDrawer()" [routerLink]="'/applicants'">
+        <button mat-button><mat-icon>people</mat-icon> Applicants</button>
       </mat-list-item>
       <mat-list-item *ngIf="user" (click)="toggleDrawer(); logout()">
         <button mat-button><mat-icon>no_meeting_room</mat-icon> Logout</button>

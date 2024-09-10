@@ -65,3 +65,64 @@ a:hover {
 .mdc-dialog__actions {
   padding: 0 24px 20px 0 !important;
 }
+
+.custom-badge .mat-badge-content {
+  min-width: 65px;
+  height: 24px;
+  font-size: 12px;
+  line-height: 24px;
+  border-radius: 5px;
+}
+
+.custom-badge .mat-badge-content {
+  background-color: gray;
+  color: white;
+  font-weight: 500;
+}
+
+.badge-owned .mat-badge-content {
+  background-color: rgb(32, 145, 250);
+  color: white;
+  font-weight: 500;
+}
+
+.badge-accepted .mat-badge-content {
+  background-color: green;
+  color: white;
+  font-weight: 500;
+}
+
+.badge-pending .mat-badge-content {
+  background-color: orange;
+  color: white;
+  font-weight: 500;
+}
+
+.badge-rejected .mat-badge-content {
+  background-color: red;
+  color: white;
+  font-weight: 500;
+}
+
+.badge-default .mat-badge-content {
+  background-color: gray;
+  color: white;
+  font-weight: 500;
+}
+
+.inactive-card {
+  opacity: 0.5; /* Make the card and its contents appear greyed out */
+  pointer-events: none; /* Disable all interactions */
+  color: #aaa;
+
+  .mat-button,
+  .mat-form-field,
+  .mat-card-actions,
+  .mat-card-subtitle,
+  .mat-card-title,
+  .mat-card-content,
+  .mat-icon-content,
+  .mat-icon {
+    color: #666;
+  }
+}

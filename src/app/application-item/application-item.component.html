@@ -1,18 +1,18 @@
 <div
-  [matBadge]="application.status"
+  [matBadge]="application.job.isActive ? application.status : 'INACTIVE'"
   matBadgeSize="large"
   matBadgePosition="before"
   matBadgeOverlap="true"
   class="custom-badge"
-  [ngClass]="getStatusClass(application.status)">
-  <mat-card>
+  [ngClass]="getStatusClass(application.job.isActive ? application.status : 'INACTIVE')">
+  <mat-card [ngClass]="application.job.isActive ? '' : 'inactive-card'">
     <mat-card-content>
-      <div class="mb-2">
+      <div>
         <div class="flex w-full flex-wrap items-center justify-between gap-2">
           <h3 class="text-[24px] font-bold">{{ application?.job?.title }}</h3>
           <div class="flex items-center justify-between gap-2">
             <button mat-button (click)="toggleLike()">
-              <mat-icon>{{ application?.job?.isLiked ? 'favorite' : 'favorite_outline' }}</mat-icon>
+              <mat-icon class="text-red">{{ application?.job?.isLiked ? 'favorite' : 'favorite_outline' }}</mat-icon>
             </button>
           </div>
         </div>
@@ -26,15 +26,24 @@
           </p>
         </div>
       </div>
-      <hr />
+      <hr class="my-2" />
 
       <mat-accordion>
         <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
           <mat-expansion-panel-header>
-            <mat-panel-title> Self aware panel </mat-panel-title>
-            <mat-panel-description> Currently I am {{ panelOpenState() ? 'open' : 'closed' }} </mat-panel-description>
+            <mat-panel-title> Application details </mat-panel-title>
           </mat-expansion-panel-header>
-          <p>I'm visible because I am open</p>
+          <div class="w-full">
+            <mat-form-field class="w-full">
+              <mat-label>Cover letter</mat-label>
+              <textarea disabled matInput>{{ application?.coverLetter }}</textarea>
+            </mat-form-field>
+            <p>
+              Applied on
+              <span class="font-semibold">{{ datePipe.transform(application?.appliedAt, 'yyyy-MM-dd') }}</span> at
+              <span class="font-semibold"> {{ datePipe.transform(application?.appliedAt, 'hh:mm a') }}</span>
+            </p>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
     </mat-card-content>

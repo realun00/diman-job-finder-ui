@@ -10,12 +10,14 @@ import { AuthService } from './auth.service';
 export class AppComponent implements OnInit {
   title = 'job-finder-diman';
   user: any;
+  role: any;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
+      this.role = user?.roles[0];
     });
   }
 
@@ -31,5 +33,7 @@ export class AppComponent implements OnInit {
 
   logout(): void {
     this.authService.logout(); // Call the logout method from AuthService
+    this.user = null;
+    this.role = null;
   }
 }

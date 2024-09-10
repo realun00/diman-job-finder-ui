@@ -28,4 +28,15 @@ export class JobsComponent implements OnInit {
   trackById(index: number, job: any): string {
     return job['_id']; // Assuming each job has a unique `id` property
   }
+
+  // Method to handle the event when a job is deleted
+  onJobDeleted(jobId: string): void {
+    // Filter the jobs array to remove the deleted job
+    this.jobs = this.jobs.filter((job: any) => job._id !== jobId);
+  }
+
+  // Method to handle the event when a job is edited
+  onJobEdited(editedJob: any): void {
+    this.jobs = this.jobs.map((job: any) => (job._id === editedJob._id ? editedJob : job));
+  }
 }

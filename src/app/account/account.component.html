@@ -1,1 +1,30 @@
-<p>account works!</p>
+<mat-accordion class="example-headers-align" multi>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> {{ role === 'ORGANIZATION' ? 'Organization' : 'Personal' }} data </mat-panel-title>
+      <mat-panel-description class="justify-between">
+        {{ role === 'ORGANIZATION' ? 'Organization' : 'Personal' }} data information
+        <mat-icon>account_circle</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div *ngIf="role === 'USER'">
+      <p>First name: {{ user.firstName }}</p>
+      <p>Last name: {{ user.lastName }}</p>
+      <p>Email address: {{ user.email }}</p>
+      <p>Username: {{ user.username }}</p>
+    </div>
+    <div *ngIf="role === 'ORGANIZATION'">
+      <p>Company name: {{ user.username }}</p>
+      <p>Email address: {{ user.email }}</p>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{ role === 'ORGANIZATION' ? 'Organization' : 'Account' }} Settings</mat-panel-title>
+      <mat-panel-description class="justify-between">
+        {{ role === 'ORGANIZATION' ? 'Organization' : 'Account' }} options
+        <mat-icon>settings</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+</mat-accordion>
