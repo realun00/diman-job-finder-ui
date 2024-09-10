@@ -1,0 +1,42 @@
+<div
+  [matBadge]="application.status"
+  matBadgeSize="large"
+  matBadgePosition="before"
+  matBadgeOverlap="true"
+  class="custom-badge"
+  [ngClass]="getStatusClass(application.status)">
+  <mat-card>
+    <mat-card-content>
+      <div class="mb-2">
+        <div class="flex w-full flex-wrap items-center justify-between gap-2">
+          <h3 class="text-[24px] font-bold">{{ application?.job?.title }}</h3>
+          <div class="flex items-center justify-between gap-2">
+            <button mat-button (click)="toggleLike()">
+              <mat-icon>{{ application?.job?.isLiked ? 'favorite' : 'favorite_outline' }}</mat-icon>
+            </button>
+          </div>
+        </div>
+        <p>{{ application?.job?.description }}</p>
+        <div class="flex w-full flex-wrap items-center justify-between gap-2">
+          <p>
+            posted by <span class="font-semibold">{{ application.job?.authorName }}</span>
+          </p>
+          <p>
+            liked <span class="font-semibold">{{ application?.job?.likes }} times</span>
+          </p>
+        </div>
+      </div>
+      <hr />
+
+      <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Self aware panel </mat-panel-title>
+            <mat-panel-description> Currently I am {{ panelOpenState() ? 'open' : 'closed' }} </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+</div>

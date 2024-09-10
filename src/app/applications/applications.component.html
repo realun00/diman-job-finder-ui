@@ -1,0 +1,7 @@
+<h3 class="mb-5 text-[36px] font-bold">Personal job applications</h3>
+
+<ul class="flex w-full flex-col gap-5">
+  <li *ngFor="let application of applications; trackBy: trackById">
+    <app-application-item [application]="application"></app-application-item>
+  </li>
+</ul>

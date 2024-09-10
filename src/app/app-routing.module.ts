@@ -5,6 +5,8 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { JobsComponent } from './jobs/jobs.component';
+import { ApplicationsComponent } from './applications/applications.component';
+
 import { FavoriteJobsComponent } from './favorite-jobs/favorite-jobs.component';
 import { AccountComponent } from './account/account.component';
 
@@ -16,6 +18,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [GuestGuard] }, // Apply guest guard
   { path: 'home', component: HomeComponent },
   { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard] }, // Apply auth guard
+  { path: 'applications', component: ApplicationsComponent, canActivate: [AuthGuard] }, // Apply auth guard
   { path: 'favorite-jobs', component: FavoriteJobsComponent, canActivate: [AuthGuard] }, // Apply auth guard
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard] }, // Apply auth guard
   { path: '', redirectTo: '/home', pathMatch: 'full' },

@@ -25,10 +25,6 @@ export class JobsComponent implements OnInit {
     });
   }
 
-  logout(): void {
-    this.authService.logout(); // Call the logout method from AuthService
-  }
-
   trackById(index: number, job: any): string {
     return job['_id']; // Assuming each job has a unique `id` property
   }

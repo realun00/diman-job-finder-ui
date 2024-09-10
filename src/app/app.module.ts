@@ -1,34 +1,42 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { AccountComponent } from './account/account.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from './header/header.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatExpansionModule } from '@angular/material/expansion';
+
+import { FormsModule } from '@angular/forms';
+
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AuthInterceptor } from './auth.interceptor';
+
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { JobsComponent } from './jobs/jobs.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatTabsModule } from '@angular/material/tabs';
-
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { HttpClientModule } from '@angular/common/http'; // Import HttpClientModule
-
-import { FormsModule } from '@angular/forms';
-import { AccountComponent } from './account/account.component';
-
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './auth.interceptor';
+import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { DialogComponent } from './dialog/dialog.component';
+import { JobApplyComponent } from './job-apply/job-apply.component';
+import { ApplicationsComponent } from './applications/applications.component';
+import { ApplicationItemComponent } from './application-item/application-item.component';
 import { JobItemComponent } from './job-item/job-item.component';
-import { FavoriteJobsComponent } from './favorite-jobs/favorite-jobs.component'; // Adjust path as necessary
+import { FavoriteJobsComponent } from './favorite-jobs/favorite-jobs.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +48,10 @@ import { FavoriteJobsComponent } from './favorite-jobs/favorite-jobs.component';
     AccountComponent,
     JobItemComponent,
     FavoriteJobsComponent,
+    DialogComponent,
+    JobApplyComponent,
+    ApplicationsComponent,
+    ApplicationItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +70,9 @@ import { FavoriteJobsComponent } from './favorite-jobs/favorite-jobs.component';
     MatTabsModule,
     HttpClientModule,
     MatCardModule,
+    MatDialogModule,
+    MatBadgeModule,
+    MatExpansionModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],

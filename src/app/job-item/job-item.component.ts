@@ -1,5 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
+import { JobApplyComponent } from '../job-apply/job-apply.component';
 
 @Component({
   selector: 'app-job-item',
@@ -9,7 +12,10 @@ import { Component, Input } from '@angular/core';
 export class JobItemComponent {
   @Input() job: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private dialog: MatDialog
+  ) {}
 
   toggleLike(): void {
     if (this.job) {
@@ -55,6 +61,31 @@ export class JobItemComponent {
         this.job.isLiked = true;
         this.job.likes += 1;
       },
+    });
+  }
+
+  // Method to open the reusable dialog
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: `Apply for ${this.job.title} at ${this.job.authorName}`,
+        body: JobApplyComponent,
+        dialogData: this.job, // Pass job data to dialog
+        confirmButtonText: 'Apply',
+        cancelButtonText: 'Cancel',
+      },
+      disableClose: true, // Prevent closing when clicking outside the dialog
+      width: '50%', // Set the width of the dialog
+    });
+
+    // Handle the result from the dialog
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'confirm') {
+        console.log('Task was confirmed');
+        // Add your logic here, such as sending a task to the backend
+      } else {
+        console.log('Task was canceled');
+      }
     });
   }
 }

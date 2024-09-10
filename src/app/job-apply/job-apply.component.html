@@ -1,0 +1,22 @@
+<form
+  id="jobApplyForm"
+  class="login-form flex w-full flex-col gap-3"
+  [formGroup]="jobApplyForm"
+  (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Cover letter</mat-label>
+    <textarea
+      matInput
+      formControlName="coverLetter"
+      [errorStateMatcher]="matcher"
+      placeholder="Ex. I dream to work at your company..."></textarea>
+    <mat-error *ngIf="jobApplyForm.get('coverLetter')?.hasError('required')">
+      Cover letter is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <!-- <button type="submit" mat-raised-button>Apply</button> -->
+  <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
+  <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
+    >You applied successfully for {{ job.title }} at {{ job.authorName }}!</span
+  >
+</form>
