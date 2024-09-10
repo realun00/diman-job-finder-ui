@@ -1,0 +1,29 @@
+<form class="flex w-full flex-col gap-2" [formGroup]="updateAccountForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Username</mat-label>
+    <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="matcher" />
+    <mat-error *ngIf="updateAccountForm.get('username')?.hasError('required')">
+      Username is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="Email" formControlName="email" [errorStateMatcher]="matcher" />
+    <mat-error *ngIf="updateAccountForm.get('email')?.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field *ngIf="role === 'USER'">
+    <mat-label>First name</mat-label>
+    <input matInput placeholder="First name" formControlName="firstName" [errorStateMatcher]="matcher" />
+  </mat-form-field>
+  <mat-form-field *ngIf="role === 'USER'">
+    <mat-label>Last name</mat-label>
+    <input matInput placeholder="Last name" formControlName="lastName" [errorStateMatcher]="matcher" />
+  </mat-form-field>
+  <button type="submit" mat-raised-button [disabled]="!updateAccountForm.dirty">Update</button>
+  <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
+  <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
+    >Your account has been updated successfully!</span
+  >
+</form>

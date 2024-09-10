@@ -7,16 +7,7 @@
         <mat-icon>account_circle</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <div *ngIf="role === 'USER'">
-      <p>First name: {{ user.firstName }}</p>
-      <p>Last name: {{ user.lastName }}</p>
-      <p>Email address: {{ user.email }}</p>
-      <p>Username: {{ user.username }}</p>
-    </div>
-    <div *ngIf="role === 'ORGANIZATION'">
-      <p>Company name: {{ user.username }}</p>
-      <p>Email address: {{ user.email }}</p>
-    </div>
+    <app-account-update></app-account-update>
   </mat-expansion-panel>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -26,6 +17,7 @@
         <mat-icon>settings</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
+    <app-change-password></app-change-password>
   </mat-expansion-panel>
 </mat-accordion>
 <div class="mt-4 flex justify-end gap-4">

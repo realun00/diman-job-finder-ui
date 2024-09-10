@@ -1,7 +1,7 @@
 <h1 class="my-2 text-center text-[24px] font-semibold">REGISTER FORM</h1>
 <mat-tab-group (selectedTabChange)="onTabChange($event)">
   <mat-tab label="User">
-    <form class="login-form mt-3 flex w-full flex-col gap-3" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form class="registration-form mt-3 flex w-full flex-col gap-3" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <mat-form-field>
         <mat-label>Username</mat-label>
         <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="matcher" />
@@ -40,7 +40,7 @@
       <span class="my-2 text-right">Already a user? <a class="font-semibold" routerLink="/login">Login</a></span>
       <span class="mb-2 text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
       <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
-        >Your registration was successfull!</span
+        >Your registration was successful!</span
       >
     </form>
   </mat-tab>
@@ -76,7 +76,7 @@
       <span class="my-2 text-right">Already a user? <a class="font-semibold" routerLink="/login">Login</a></span>
       <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
       <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
-        >Your registration was successfull!</span
+        >Your registration was successful!</span
       >
     </form>
   </mat-tab>

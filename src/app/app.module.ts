@@ -43,6 +43,8 @@ import { JobDeleteComponent } from './job-delete/job-delete.component';
 import { JobEditComponent } from './job-edit/job-edit.component';
 import { AccountDeleteComponent } from './account-delete/account-delete.component';
 import { JobAddComponent } from './job-add/job-add.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { AccountUpdateComponent } from './account-update/account-update.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { JobAddComponent } from './job-add/job-add.component';
     JobEditComponent,
     AccountDeleteComponent,
     JobAddComponent,
+    ChangePasswordComponent,
+    AccountUpdateComponent,
   ],
   imports: [
     BrowserModule,
