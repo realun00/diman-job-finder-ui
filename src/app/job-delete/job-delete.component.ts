@@ -27,7 +27,7 @@ export class JobDeleteComponent {
   constructor(private fb: FormBuilder) {}
 
   onSubmit(): void {
-    this.http.delete(`http://localhost:5000/jobs/job/${this.job?.['_id']}`).subscribe({
+    this.http.patch(`http://localhost:5000/jobs/job/${this.job?.['_id']}`, '').subscribe({
       next: (response: any) => {
         console.log('Job delete successful', response);
         this.submitSuccess = true;

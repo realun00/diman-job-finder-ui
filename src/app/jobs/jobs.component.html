@@ -1,3 +1,8 @@
+<div *ngIf="role === 'ORGANIZATION'" class="flex justify-end">
+  <button color="primary" mat-raised-button class="mb-5 text-right font-semibold">
+    <mat-icon>note_add</mat-icon> Add new job
+  </button>
+</div>
 <ul class="flex w-full flex-col gap-5">
   <li *ngFor="let job of jobs; trackBy: trackById">
     <app-job-item (jobDeleted)="onJobDeleted($event)" (jobEdited)="onJobEdited($event)" [job]="job"></app-job-item>

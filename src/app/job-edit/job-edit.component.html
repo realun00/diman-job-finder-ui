@@ -12,6 +12,23 @@
       [errorStateMatcher]="matcher"
       placeholder="Ex. We are looking for..."></textarea>
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>Category</mat-label>
+    <mat-select formControlName="category" name="category">
+      <mat-option *ngFor="let category of categories" [value]="category.value">
+        {{ category.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Type</mat-label>
+    <mat-select formControlName="type" name="type">
+      <mat-option *ngFor="let type of types" [value]="type.value">
+        {{ type.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
   <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
     >{{ job.title }} has been edited successfully!</span

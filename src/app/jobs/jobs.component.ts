@@ -10,9 +10,17 @@ import { HttpClient } from '@angular/common/http';
 export class JobsComponent implements OnInit {
   http = inject(HttpClient);
   jobs: any;
+  user: any;
+  role: any;
+
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.authService.currentUser$.subscribe(user => {
+      this.user = user;
+      this.role = user?.roles[0];
+    });
+
     this.http.get('http://localhost:5000/jobs/job').subscribe({
       next: request => {
         console.log('Fetching requests', request);

@@ -15,6 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { FormsModule } from '@angular/forms';
 
@@ -77,6 +79,8 @@ import { JobEditComponent } from './job-edit/job-edit.component';
     MatDialogModule,
     MatBadgeModule,
     MatExpansionModule,
+    MatSelectModule,
+    MatChipsModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],

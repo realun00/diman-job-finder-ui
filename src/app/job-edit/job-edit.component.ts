@@ -26,6 +26,18 @@ export class JobEditComponent implements OnInit {
   @Input() formName: any; // Receive formName
   @Output() emitter = new EventEmitter<any>(); // Emit the updated job data
 
+  categories: any[] = [
+    { value: 'IT', viewValue: 'IT' },
+    { value: 'Finance', viewValue: 'Finance' },
+    { value: 'Other', viewValue: 'Other' },
+  ];
+
+  types: any[] = [
+    { value: 'Full-time', viewValue: 'Full-time' },
+    { value: 'Part-time', viewValue: 'Part-time' },
+    { value: 'Remote', viewValue: 'Remote' },
+  ];
+
   // Error message to be displayed after form submission
   submitError: string | null = null;
   submitSuccess = false;
@@ -37,6 +49,8 @@ export class JobEditComponent implements OnInit {
   jobEditForm = this.fb.group({
     title: ['', Validators.required],
     description: [''],
+    category: ['', Validators.required],
+    type: ['', Validators.required],
   });
 
   matcher = new MyErrorStateMatcher();
@@ -49,6 +63,8 @@ export class JobEditComponent implements OnInit {
       this.jobEditForm.patchValue({
         title: this.job.title,
         description: this.job.description,
+        category: this.job?.category,
+        type: this.job?.type,
       });
     }
   }
@@ -75,7 +91,7 @@ export class JobEditComponent implements OnInit {
           this.submitSuccess = true;
 
           // Emit the updated job data after a successful response
-          this.emitter.emit(response.job);
+          this.emitter.emit({ ...this.job, ...this.jobEditForm.getRawValue() });
 
           setTimeout(() => {
             this.submitSuccess = false;

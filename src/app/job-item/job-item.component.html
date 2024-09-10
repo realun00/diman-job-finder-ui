@@ -8,7 +8,10 @@
   <mat-card>
     <mat-card-content>
       <div class="flex w-full flex-wrap items-center justify-between gap-2">
-        <h3 class="text-[24px] font-bold">{{ job.title }}</h3>
+        <mat-chip-set aria-label="Chip selection">
+          <mat-chip>{{ job.category }}</mat-chip>
+          <mat-chip>{{ job.type }}</mat-chip>
+        </mat-chip-set>
         <div class="flex items-center justify-between gap-2">
           <button mat-button *ngIf="job.authorName === user.username" (click)="edit()">
             <mat-icon class="text-blue-500">edit</mat-icon>
@@ -24,6 +27,9 @@
           </button>
         </div>
       </div>
+
+      <h3 class="text-[24px] font-bold">{{ job.title }}</h3>
+
       <p>{{ job.description }}</p>
       <div class="flex w-full flex-wrap items-center justify-between gap-2">
         <p>

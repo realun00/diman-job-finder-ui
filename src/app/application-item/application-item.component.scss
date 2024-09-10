@@ -1,3 +1,9 @@
+:host {
+  ::ng-deep .mat-expansion-panel-body {
+    padding: 0;
+  }
+}
+
 .mdc-button {
   min-width: auto;
   padding: 0;
@@ -5,4 +11,20 @@
 
 .mat-mdc-button > .mat-icon {
   margin: 0;
+}
+
+.application-accordion {
+  .mat-expansion-panel {
+    border: none;
+    border-radius: 0px;
+    box-shadow: none;
+  }
+
+  .mat-expansion-panel-header {
+    padding: 0px 5px 0 0;
+  }
+}
+
+.mat-expansion-panel {
+  padding: 0px !important;
 }

@@ -9,13 +9,17 @@
     <mat-card-content>
       <div>
         <div class="flex w-full flex-wrap items-center justify-between gap-2">
-          <h3 class="text-[24px] font-bold">{{ application?.job?.title }}</h3>
-          <div class="flex items-center justify-between gap-2">
-            <button mat-button (click)="toggleLike()">
-              <mat-icon class="text-red">{{ application?.job?.isLiked ? 'favorite' : 'favorite_outline' }}</mat-icon>
-            </button>
-          </div>
+          <mat-chip-set aria-label="Chip selection">
+            <mat-chip>{{ application?.job?.category }}</mat-chip>
+            <mat-chip>{{ application?.job?.type }}</mat-chip>
+          </mat-chip-set>
+          <button mat-button (click)="toggleLike()">
+            <mat-icon class="text-red">{{ application?.job?.isLiked ? 'favorite' : 'favorite_outline' }}</mat-icon>
+          </button>
         </div>
+
+        <h3 class="text-[24px] font-bold">{{ application?.job?.title }}</h3>
+
         <p>{{ application?.job?.description }}</p>
         <div class="flex w-full flex-wrap items-center justify-between gap-2">
           <p>
@@ -28,7 +32,7 @@
       </div>
       <hr class="my-2" />
 
-      <mat-accordion>
+      <mat-accordion class="application-accordion">
         <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
           <mat-expansion-panel-header>
             <mat-panel-title> Application details </mat-panel-title>
