@@ -15,7 +15,7 @@ import { JobEditComponent } from '../job-edit/job-edit.component';
 export class JobItemComponent implements OnInit {
   @Input() job: any;
   @Output() jobDeleted = new EventEmitter<string>(); // Emit job ID when deleted
-  @Output() jobEdited = new EventEmitter<string>(); // Emit job ID when deleted
+  @Output() jobEdited = new EventEmitter<string>(); // Emit job ID when edited
 
   constructor(
     private http: HttpClient,

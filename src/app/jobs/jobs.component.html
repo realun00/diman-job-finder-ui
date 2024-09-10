@@ -1,5 +1,5 @@
 <div *ngIf="role === 'ORGANIZATION'" class="flex justify-end">
-  <button color="primary" mat-raised-button class="mb-5 text-right font-semibold">
+  <button color="primary" mat-raised-button class="mb-5 text-right font-semibold" (click)="add()">
     <mat-icon>note_add</mat-icon> Add new job
   </button>
 </div>
@@ -8,3 +8,4 @@
     <app-job-item (jobDeleted)="onJobDeleted($event)" (jobEdited)="onJobEdited($event)" [job]="job"></app-job-item>
   </li>
 </ul>
+<p *ngIf="jobs?.length === 0" class="text-[24px] font-semibold">No jobs...</p>

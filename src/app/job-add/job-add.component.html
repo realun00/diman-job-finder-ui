@@ -1,0 +1,36 @@
+<form [attr.id]="formName" class="flex w-full flex-col gap-3" [formGroup]="jobAddForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input matInput placeholder="Title" formControlName="title" [errorStateMatcher]="matcher" />
+    <mat-error *ngIf="jobAddForm.get('title')?.hasError('required')"> Title is <strong>required</strong> </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <textarea
+      matInput
+      formControlName="description"
+      [errorStateMatcher]="matcher"
+      placeholder="Ex. We are looking for..."></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Category</mat-label>
+    <mat-select formControlName="category" name="category">
+      <mat-option *ngFor="let category of categories" [value]="category.value">
+        {{ category.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Type</mat-label>
+    <mat-select formControlName="type" name="type">
+      <mat-option *ngFor="let type of types" [value]="type.value">
+        {{ type.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
+  <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
+    >{{ jobAddForm.getRawValue().title }} has been added successfully!</span
+  >
+</form>

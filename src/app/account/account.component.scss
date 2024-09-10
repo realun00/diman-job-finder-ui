@@ -1,3 +1,12 @@
 :host {
   width: 100%;
+
+  .logout-btn {
+    color: #666;
+  }
+
+  .delete-btn {
+    background-color: rgb(255, 91, 91);
+    color: #fff; /* Use a lighter color for text */
+  }
 }

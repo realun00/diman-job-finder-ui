@@ -5,3 +5,4 @@
     <app-application-item [application]="application"></app-application-item>
   </li>
 </ul>
+<p *ngIf="applications?.length === 0" class="text-[24px] font-semibold">No applications yet...</p>

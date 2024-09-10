@@ -41,6 +41,8 @@ import { JobItemComponent } from './job-item/job-item.component';
 import { FavoriteJobsComponent } from './favorite-jobs/favorite-jobs.component';
 import { JobDeleteComponent } from './job-delete/job-delete.component';
 import { JobEditComponent } from './job-edit/job-edit.component';
+import { AccountDeleteComponent } from './account-delete/account-delete.component';
+import { JobAddComponent } from './job-add/job-add.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,8 @@ import { JobEditComponent } from './job-edit/job-edit.component';
     ApplicationItemComponent,
     JobDeleteComponent,
     JobEditComponent,
+    AccountDeleteComponent,
+    JobAddComponent,
   ],
   imports: [
     BrowserModule,

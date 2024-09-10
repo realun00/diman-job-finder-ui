@@ -28,3 +28,11 @@
     </mat-expansion-panel-header>
   </mat-expansion-panel>
 </mat-accordion>
+<div class="mt-4 flex justify-end gap-4">
+  <button mat-raised-button class="delete-btn mb-5 text-right font-semibold" (click)="remove()">
+    <mat-icon>delete</mat-icon> Delete
+  </button>
+  <button mat-raised-button class="logout-btn mb-5 text-right font-semibold" (click)="logout()">
+    <mat-icon>no_meeting_room</mat-icon> Logout
+  </button>
+</div>
