@@ -7,11 +7,11 @@ import { AuthService } from '../auth.service';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-job-delete',
-  templateUrl: './job-delete.component.html',
-  styleUrls: ['./job-delete.component.scss'],
+  selector: 'app-job-activate',
+  templateUrl: './job-activate.component.html',
+  styleUrls: ['./job-activate.component.scss'],
 })
-export class JobDeleteComponent {
+export class JobActivateComponent {
   @Input() job: any; // Receive job data
   @Input() dialogRef: MatDialogRef<any> | null = null; // Dialog reference to close the dialog
   @Input() formName: any; // Receive formName
@@ -28,9 +28,9 @@ export class JobDeleteComponent {
   constructor(private fb: FormBuilder) {}
 
   onSubmit(): void {
-    this.http.patch(`http://localhost:5000/jobs/job/${this.job?.['_id']}/deactivate`, '').subscribe({
+    this.http.patch(`http://localhost:5000/jobs/job/${this.job?.['_id']}/activate`, '').subscribe({
       next: (response: any) => {
-        console.log('Job delete successful', response);
+        console.log('Job activated successful', response);
         this.submitSuccess = true;
 
         setTimeout(() => {
@@ -41,9 +41,9 @@ export class JobDeleteComponent {
         }, 1500); // 1000 milliseconds delay
       },
       error: response => {
-        console.error('Error during deletion', response?.error?.message);
+        console.error('Error during activation', response?.error?.message);
         this.submitSuccess = false;
-        this.submitError = `${response?.error?.message || 'Job deletion failed. Please try again later.'}`; // Set error message
+        this.submitError = `${response?.error?.message || 'Job activation failed. Please try again later.'}`; // Set error message
       },
     });
   }

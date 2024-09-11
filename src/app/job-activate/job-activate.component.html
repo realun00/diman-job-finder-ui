@@ -1,10 +1,8 @@
 <form [attr.id]="formName" class="flex w-full flex-col gap-3" (ngSubmit)="onSubmit()">
-  <span *ngIf="!bodyText">
-    Are you sure that you would like to delete {{ job.title }}? The job won't be deleted, but will be set as inactive.
-  </span>
+  <span *ngIf="!bodyText"> Are you sure that you would like to activate {{ job.title }}? </span>
   <span *ngIf="bodyText">{{ bodyText }}</span>
   <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
   <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
-    >{{ job.title }} has been deactivated successfully!</span
+    >{{ job.title }} has been activated successfully!</span
   >
 </form>

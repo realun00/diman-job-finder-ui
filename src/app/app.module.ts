@@ -17,6 +17,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { FormsModule } from '@angular/forms';
 
@@ -45,6 +46,11 @@ import { AccountDeleteComponent } from './account-delete/account-delete.componen
 import { JobAddComponent } from './job-add/job-add.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AccountUpdateComponent } from './account-update/account-update.component';
+import { ApplicantsComponent } from './applicants/applicants.component';
+import { ApplicantItemComponent } from './applicant-item/applicant-item.component';
+import { JobActivateComponent } from './job-activate/job-activate.component';
+import { ApplicantsListComponent } from './applicants-list/applicants-list.component';
+import { ApplicantListItemComponent } from './applicant-list-item/applicant-list-item.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +72,11 @@ import { AccountUpdateComponent } from './account-update/account-update.componen
     JobAddComponent,
     ChangePasswordComponent,
     AccountUpdateComponent,
+    ApplicantsComponent,
+    ApplicantItemComponent,
+    JobActivateComponent,
+    ApplicantsListComponent,
+    ApplicantListItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,6 +100,7 @@ import { AccountUpdateComponent } from './account-update/account-update.componen
     MatExpansionModule,
     MatSelectModule,
     MatChipsModule,
+    MatProgressSpinnerModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],

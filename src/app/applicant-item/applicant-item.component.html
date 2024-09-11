@@ -1,0 +1,62 @@
+<div
+  [matBadge]="job.isActive ? 'ACTIVE' : 'INACTIVE'"
+  matBadgeSize="large"
+  matBadgePosition="before"
+  matBadgeOverlap="true"
+  class="custom-badge"
+  [ngClass]="getStatusClass(job.isActive ? 'ACTIVE' : 'INACTIVE')">
+  <mat-card>
+    <mat-card-content>
+      <div>
+        <div class="flex w-full flex-wrap items-center justify-between gap-2">
+          <mat-chip-set aria-label="Chip selection">
+            <mat-chip>{{ job?.category }}</mat-chip>
+            <mat-chip>{{ job?.type }}</mat-chip>
+          </mat-chip-set>
+          <div class="flex items-center gap-3">
+            <button mat-button *ngIf="job.authorName === user.username" (click)="edit()">
+              <mat-icon class="text-blue-500">edit</mat-icon>
+            </button>
+            <button mat-button *ngIf="job.isActive && job.authorName === user.username" (click)="deactivate()">
+              <mat-icon class="text-red">remove_circle</mat-icon>
+            </button>
+            <button mat-button *ngIf="!job.isActive && job.authorName === user.username" (click)="activate()">
+              <mat-icon class="text-light-green">add_circle</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <h3 class="text-[24px] font-bold">{{ job?.title }}</h3>
+
+        <p>{{ job?.description }}</p>
+        <div class="flex w-full flex-wrap items-center justify-between gap-2">
+          <p>
+            posted by <span class="font-semibold">{{ job?.authorName }}</span>
+          </p>
+          <p>
+            liked <span class="font-semibold">{{ job?.likes }} times</span>
+          </p>
+        </div>
+      </div>
+      <hr class="my-2" />
+
+      <button mat-button color="primary" *ngIf="job.applicants?.length" (click)="goToApplicantsList(job._id)">
+        Show Applicants ({{ job.applicants?.length }})
+      </button>
+
+      <p *ngIf="!job.applicants?.length">No applicants yet.</p>
+
+      <!-- <mat-accordion class="applicant-accordion">
+        <mat-expansion-panel
+          [disabled]="!job.applicants?.length"
+          (opened)="panelOpenState.set(true)"
+          (closed)="panelOpenState.set(false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Applicants ({{ job.applicants?.length }}) </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-applicants-list [job]="job"></app-applicants-list>
+        </mat-expansion-panel>
+      </mat-accordion> -->
+    </mat-card-content>
+  </mat-card>
+</div>

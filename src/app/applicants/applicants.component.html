@@ -1,0 +1,11 @@
+<h3 class="mb-5 text-[36px] font-bold">Organization jobs</h3>
+<ul class="flex w-full flex-col gap-5">
+  <li *ngFor="let job of jobs; trackBy: trackById">
+    <app-applicant-item
+      (jobDeactivated)="onJobDeactivated($event)"
+      (jobActivated)="onJobActivated($event)"
+      (jobEdited)="onJobEdited($event)"
+      [job]="job"></app-applicant-item>
+  </li>
+</ul>
+<p *ngIf="jobs?.length === 0" class="text-[24px] font-semibold">No jobs...</p>

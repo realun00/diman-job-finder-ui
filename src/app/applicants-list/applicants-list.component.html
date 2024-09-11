@@ -1,0 +1,15 @@
+<div *ngIf="loading" class="flex h-[90vh] items-center justify-center">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="!loading">
+  <h3 class="mb-3 text-[24px] font-bold">Applicants for {{ job?.title }}</h3>
+  <ul class="flex w-full flex-col gap-5">
+    <li *ngFor="let applicant of applicants; trackBy: trackById">
+      <app-applicant-list-item
+        (applicantRejected)="onApplicantRejected($event)"
+        (applicantAccepted)="onApplicantAccepted($event)"
+        [applicant]="applicant"></app-applicant-list-item>
+    </li>
+  </ul>
+  <p *ngIf="applicants?.length === 0" class="text-[24px] font-semibold">No applicants yet...</p>
+</div>

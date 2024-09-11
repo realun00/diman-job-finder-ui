@@ -40,6 +40,7 @@ export class DialogComponent implements OnInit {
       (componentRef.instance as any).dialogRef = this.dialogRef; // Pass dialog reference if needed
       (componentRef.instance as any).formName = this.data.formName; // Pass the formName to the child component
       (componentRef.instance as any).emitter = this?.data?.emitter; // Pass the emitter to the child component
+      (componentRef.instance as any).bodyText = this?.data?.bodyText; // Pass the emitter to the child component
     }
   }
 

@@ -21,7 +21,7 @@
     <mat-label>Last name</mat-label>
     <input matInput placeholder="Last name" formControlName="lastName" [errorStateMatcher]="matcher" />
   </mat-form-field>
-  <button type="submit" mat-raised-button [disabled]="!updateAccountForm.dirty">Update</button>
+  <button type="submit" mat-raised-button>Update</button>
   <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
   <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
     >Your account has been updated successfully!</span
