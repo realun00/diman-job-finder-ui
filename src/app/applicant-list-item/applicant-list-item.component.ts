@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { DialogComponent } from '../dialog/dialog.component';
 import { JobDeleteComponent } from '../job-delete/job-delete.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../auth.service';
+import { ApplicationActionComponent } from '../application-action/application-action.component';
 
 @Component({
   selector: 'app-applicant-list-item',
@@ -17,6 +18,8 @@ export class ApplicantListItemComponent implements OnInit {
   @Input() applicant: any;
   @Output() applicantAccepted = new EventEmitter<string>();
   @Output() applicantRejected = new EventEmitter<string>();
+
+  readonly panelOpenState = signal(false);
 
   constructor(
     private http: HttpClient,
@@ -38,12 +41,39 @@ export class ApplicantListItemComponent implements OnInit {
   accept(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
-        title: `Accept ${this.applicant.username}`,
-        body: JobDeleteComponent,
+        title: `Accept ${this.applicant.user?.username}`,
+        body: ApplicationActionComponent,
         bodyText: 'Are you sure that you would like to accept this job application?',
-        dialogData: this.applicant,
+        dialogData: { ...this.applicant, updateStatus: 'ACCEPTED' },
         formName: 'applicationAcceptForm',
         confirmButtonText: 'Accept',
+        cancelButtonText: 'Cancel',
+      },
+      disableClose: true, // Prevent closing when clicking outside the dialog
+      width: '50%', // Set the width of the dialog
+    });
+
+    // Handle the result from the dialog
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'confirm') {
+        console.log('Task was confirmed');
+        // Emit the job's ID to the parent
+        this.applicantAccepted.emit(this.applicant._id);
+      } else {
+        console.log('Task was canceled');
+      }
+    });
+  }
+
+  reject(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: `Reject ${this.applicant.user?.username}`,
+        body: ApplicationActionComponent,
+        bodyText: 'Are you sure that you would like to reject this job application?',
+        dialogData: { ...this.applicant, updateStatus: 'REJECTED' },
+        formName: 'applicationRejectForm',
+        confirmButtonText: 'Reject',
         cancelButtonText: 'Cancel',
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
@@ -62,30 +92,18 @@ export class ApplicantListItemComponent implements OnInit {
     });
   }
 
-  reject(): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      data: {
-        title: `Reject ${this.applicant.username}`,
-        body: JobDeleteComponent,
-        bodyText: 'Are you sure that you would like to reject this job application?',
-        dialogData: this.applicant,
-        formName: 'applicationRejectForm',
-        confirmButtonText: 'Reject',
-        cancelButtonText: 'Cancel',
-      },
-      disableClose: true, // Prevent closing when clicking outside the dialog
-      width: '50%', // Set the width of the dialog
-    });
-
-    // Handle the result from the dialog
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'confirm') {
-        console.log('Task was confirmed');
-        // Emit the job's ID to the parent
-        this.applicantAccepted.emit(this.applicant._id);
-      } else {
-        console.log('Task was canceled');
-      }
-    });
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'ACCEPTED':
+        return 'badge-accepted';
+      case 'PENDING':
+        return 'badge-pending';
+      case 'REJECTED':
+        return 'badge-rejected';
+      case 'INACTIVE':
+        return 'inactive-card';
+      default:
+        return 'badge-default';
+    }
   }
 }

@@ -1,2 +1,46 @@
-<div class="flex items-center justify-between"></div>
-<p>{{ applicant.user.username }}</p>
+<div
+  [matBadge]="applicant.status"
+  matBadgeSize="large"
+  matBadgePosition="before"
+  matBadgeOverlap="true"
+  class="custom-badge"
+  [ngClass]="getStatusClass(applicant.status)">
+  <mat-card>
+    <mat-card-content>
+      <div>
+        <div class="flex w-full flex-wrap items-start justify-between gap-2">
+          <div>
+            <p>First name: {{ applicant?.user?.firstName }}</p>
+            <p>Last name:{{ applicant?.user?.lastName }}</p>
+            <p>E-mail: {{ applicant?.user?.email }}</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button mat-button *ngIf="applicant.status !== 'ACCEPTED'" (click)="accept()">
+              <mat-icon class="font-semibold text-light-green">done</mat-icon>
+            </button>
+            <button mat-button *ngIf="applicant.status !== 'REJECTED'" (click)="reject()">
+              <mat-icon class="text-red">person_off</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr class="my-2" />
+
+      <mat-accordion class="applicant-list-item-accordion">
+        <mat-expansion-panel
+          hideToggle
+          [disabled]="!applicant.coverLetter"
+          (opened)="panelOpenState.set(true)"
+          (closed)="panelOpenState.set(false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="font-semibold"> Cover letter </mat-panel-title>
+            <mat-panel-description class="justify-end">
+              <mat-icon>remove_red_eye</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          {{ applicant.coverLetter }}
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -51,6 +51,7 @@ import { ApplicantItemComponent } from './applicant-item/applicant-item.componen
 import { JobActivateComponent } from './job-activate/job-activate.component';
 import { ApplicantsListComponent } from './applicants-list/applicants-list.component';
 import { ApplicantListItemComponent } from './applicant-list-item/applicant-list-item.component';
+import { ApplicationActionComponent } from './application-action/application-action.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { ApplicantListItemComponent } from './applicant-list-item/applicant-list
     JobActivateComponent,
     ApplicantsListComponent,
     ApplicantListItemComponent,
+    ApplicationActionComponent,
   ],
   imports: [
     BrowserModule,

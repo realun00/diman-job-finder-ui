@@ -2,7 +2,12 @@
   <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="!loading">
-  <h3 class="mb-3 text-[24px] font-bold">Applicants for {{ job?.title }}</h3>
+  <div class="flex flex-wrap items-center justify-between">
+    <h3 class="mb-5 text-[24px] font-bold">Applicants for {{ job?.title }}</h3>
+    <button mat-raised-button class="mb-5 text-right font-semibold" (click)="goToApplicants()">
+      <mat-icon>people</mat-icon> Back to my jobs
+    </button>
+  </div>
   <ul class="flex w-full flex-col gap-5">
     <li *ngFor="let applicant of applicants; trackBy: trackById">
       <app-applicant-list-item

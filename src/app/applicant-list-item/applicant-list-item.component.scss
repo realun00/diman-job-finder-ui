@@ -1,0 +1,44 @@
+:host {
+  ::ng-deep {
+    .mat-expansion-panel-body {
+      padding: 0;
+    }
+
+    .mat-content.mat-content-hide-toggle {
+      margin-right: 0px;
+    }
+
+    .mat-expansion-panel-header-description {
+      margin-right: 0px;
+    }
+  }
+}
+
+.mdc-button {
+  min-width: auto;
+  padding: 0;
+}
+
+.mat-mdc-raised-button {
+  padding: 5px;
+}
+
+.mat-mdc-button > .mat-icon {
+  margin: 0;
+}
+
+.applicant-list-item-accordion {
+  .mat-expansion-panel {
+    // border: none;
+    // border-radius: 0px;
+    box-shadow: none;
+  }
+
+  .mat-expansion-panel-header {
+    padding: 0px 5px 0 0;
+  }
+}
+
+.mat-expansion-panel {
+  padding: 0px !important;
+}

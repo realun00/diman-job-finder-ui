@@ -68,15 +68,23 @@ export class ApplicantsListComponent implements OnInit {
     return applicant['_id'];
   }
 
-  onApplicantAccepted(jobId: string): void {
+  onApplicantAccepted(applicationId: string): void {
     this.applicants = this.applicants
-      .map((job: any) => (job._id !== jobId ? job : { ...job, status: 'ACCEPTED' }))
-      .sort((a: any, b: any) => (a.isActive === b.isActive ? 0 : a.isActive ? -1 : 1));
+      .map((application: any) =>
+        application._id !== applicationId ? application : { ...application, status: 'ACCEPTED' }
+      )
+      .sort((a: any, b: any) => (a.status === b.status ? 0 : a.status ? -1 : 1));
   }
 
-  onApplicantRejected(jobId: string): void {
+  onApplicantRejected(applicationId: string): void {
     this.applicants = this.applicants
-      .map((job: any) => (job._id !== jobId ? job : { ...job, status: 'REJECTED' }))
-      .sort((a: any, b: any) => (a.isActive === b.isActive ? 0 : a.isActive ? -1 : 1));
+      .map((application: any) =>
+        application._id !== applicationId ? application : { ...application, status: 'REJECTED' }
+      )
+      .sort((a: any, b: any) => (a.status === b.status ? 0 : a.status ? -1 : 1));
+  }
+
+  goToApplicants(): void {
+    this.router.navigate([`/applicants`]);
   }
 }
