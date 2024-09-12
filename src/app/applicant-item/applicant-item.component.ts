@@ -57,7 +57,7 @@ export class ApplicantItemComponent implements OnInit {
         loading: this.editLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
-      width: '50%', // Set the width of the dialog
+      panelClass: 'custom-dialog', // Add the custom class here
     });
   }
 
@@ -74,7 +74,7 @@ export class ApplicantItemComponent implements OnInit {
         loading: this.deactivateLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
-      width: '50%', // Set the width of the dialog
+      panelClass: 'custom-dialog', // Add the custom class here
     });
 
     // Handle the result from the dialog
@@ -98,7 +98,7 @@ export class ApplicantItemComponent implements OnInit {
         loading: this.activateLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
-      width: '50%', // Set the width of the dialog
+      panelClass: 'custom-dialog', // Add the custom class here
     });
 
     // Handle the result from the dialog

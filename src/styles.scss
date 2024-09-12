@@ -150,8 +150,20 @@ a:hover {
 }
 
 .dialog-btn {
-  min-width: 80px !important;
+  min-width: 120px !important;
   .mat-mdc-progress-spinner {
     --mdc-circular-progress-active-indicator-color: white;
+  }
+}
+
+.custom-dialog {
+  min-width: 50%;
+
+  @media (max-width: 768px) {
+    min-width: 75%; // For screens below 768px
+  }
+
+  @media (max-width: 600px) {
+    min-width: 100%; // For screens below 600px
   }
 }

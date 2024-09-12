@@ -48,6 +48,11 @@ module.exports = {
         status: '0 8px 8px 0 rgba(0, 0, 0, 0.24), 0 0 0 0 transparent',
       },
     },
+    // Extend the screens to add 'xs'
+    screens: {
+      xs: '380px', // Define xs breakpoint for 480px or smaller screens
+      ...require('tailwindcss/defaultTheme').screens, // Include all default breakpoints
+    },
   },
   plugins: [
     'prettier-plugin-tailwindcss',

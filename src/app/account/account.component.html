@@ -2,8 +2,10 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title> {{ role === 'ORGANIZATION' ? 'Organization' : 'Personal' }} data </mat-panel-title>
-      <mat-panel-description class="justify-between">
-        {{ role === 'ORGANIZATION' ? 'Organization' : 'Personal' }} data information
+      <mat-panel-description class="!grow-0 justify-end xs:!grow-[2] xs:justify-between">
+        <span class="hidden xs:block">
+          {{ role === 'ORGANIZATION' ? 'Organization' : 'Personal' }} data information
+        </span>
         <mat-icon>account_circle</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
@@ -12,8 +14,8 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>{{ role === 'ORGANIZATION' ? 'Organization' : 'Account' }} Settings</mat-panel-title>
-      <mat-panel-description class="justify-between">
-        {{ role === 'ORGANIZATION' ? 'Organization' : 'Account' }} options
+      <mat-panel-description class="!grow-0 justify-end xs:!grow-[2] xs:justify-between">
+        <span class="hidden xs:block"> {{ role === 'ORGANIZATION' ? 'Organization' : 'Account' }} options </span>
         <mat-icon>settings</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>

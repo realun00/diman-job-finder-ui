@@ -3,7 +3,7 @@
   <ng-template #dynamicComponentContainer></ng-template>
 </mat-dialog-content>
 <mat-dialog-actions align="end" class="gap-2" [ngClass]="{ 'pointer-events-none': data.loading?.state }">
-  <button mat-button mat-dialog-close mat-raised-button (click)="onActionClick('cancel')">
+  <button class="dialog-btn" mat-button mat-dialog-close mat-raised-button (click)="onActionClick('cancel')">
     {{ data.cancelButtonText || 'Cancel' }}
   </button>
   <button

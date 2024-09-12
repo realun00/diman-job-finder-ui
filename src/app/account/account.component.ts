@@ -43,7 +43,7 @@ export class AccountComponent implements OnInit {
         loading: this.deleteLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
-      width: '50%', // Set the width of the dialog
+      panelClass: 'custom-dialog', // Add the custom class here
     });
 
     // Handle the result from the dialog

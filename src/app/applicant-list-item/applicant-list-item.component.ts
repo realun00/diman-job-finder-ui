@@ -53,7 +53,7 @@ export class ApplicantListItemComponent implements OnInit {
         loading: this.actionLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
-      width: '50%', // Set the width of the dialog
+      panelClass: 'custom-dialog', // Add the custom class here
     });
 
     // Handle the result from the dialog
@@ -78,7 +78,7 @@ export class ApplicantListItemComponent implements OnInit {
         loading: this.actionLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
-      width: '50%', // Set the width of the dialog
+      panelClass: 'custom-dialog', // Add the custom class here
     });
 
     // Handle the result from the dialog
