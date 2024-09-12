@@ -1,4 +1,8 @@
-<form class="flex w-full flex-col gap-2" [formGroup]="updateAccountForm" (ngSubmit)="onSubmit()">
+<form
+  class="flex w-full flex-col gap-2"
+  [ngClass]="{ 'pointer-events-none': loading }"
+  [formGroup]="updateAccountForm"
+  (ngSubmit)="onSubmit()">
   <mat-form-field>
     <mat-label>Username</mat-label>
     <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="matcher" />
@@ -21,9 +25,8 @@
     <mat-label>Last name</mat-label>
     <input matInput placeholder="Last name" formControlName="lastName" [errorStateMatcher]="matcher" />
   </mat-form-field>
-  <button type="submit" mat-raised-button>Update</button>
+  <button type="submit" mat-raised-button>
+    <mat-spinner *ngIf="loading" diameter="20" /> <span *ngIf="!loading">Update</span>
+  </button>
   <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
-  <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
-    >Your account has been updated successfully!</span
-  >
 </form>

@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 
 @Component({
   selector: 'app-application-action',
@@ -16,10 +17,7 @@ export class ApplicationActionComponent implements OnInit {
   @Input() dialogRef: MatDialogRef<any> | null = null; // Dialog reference to close the dialog
   @Input() formName: any; // Receive formName
   @Input() bodyText: any; // Receive job data
-
-  // Error message to be displayed after form submission
-  submitError: string | null = null;
-  submitSuccess = false;
+  @Input() loading: any;
 
   http = inject(HttpClient);
   router = inject(Router);
@@ -27,34 +25,39 @@ export class ApplicationActionComponent implements OnInit {
 
   application: any;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private snackbarService: SnackbarService) {}
 
   ngOnInit(): void {
     this.application = this.job;
   }
 
   onSubmit(): void {
+    this.loading.state = true;
     const body = { status: this.application.updateStatus };
 
-    this.http
-      .patch(`http://localhost:5000/application/application/${this.application?.['_id']}/status`, body)
-      .subscribe({
-        next: (response: any) => {
-          console.log('Status changed successfully', response);
-          this.submitSuccess = true;
+    this.http.patch(`${BASE_URL}/application/application/${this.application?.['_id']}/status`, body).subscribe({
+      next: () => {
+        this.snackbarService.openSnackBar(
+          `${this.application['_id']} status has been changed successfully!`,
+          'Close',
+          'success',
+          5000
+        );
 
-          setTimeout(() => {
-            this.submitSuccess = false;
-            if (this.dialogRef) {
-              this.dialogRef.close('confirm');
-            }
-          }, 1500); // 1000 milliseconds delay
-        },
-        error: response => {
-          console.error('Error during status change', response?.error?.message);
-          this.submitSuccess = false;
-          this.submitError = `${response?.error?.message || 'Status change failed. Please try again later.'}`; // Set error message
-        },
-      });
+        setTimeout(() => {
+          this.loading.state = false;
+          if (this.dialogRef) {
+            this.dialogRef.close('confirm');
+          }
+        }, 300);
+      },
+      error: response => {
+        this.loading.state = false;
+        this.snackbarService.openSnackBar(
+          `${response?.error?.message || 'Status change failed. Please try again later.'}`,
+          'Close'
+        );
+      },
+    });
   }
 }

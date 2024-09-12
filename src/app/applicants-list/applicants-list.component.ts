@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 
 @Component({
   selector: 'app-applicants-list',
@@ -22,6 +24,7 @@ export class ApplicantsListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private snackbarService: SnackbarService,
     private http: HttpClient
   ) {}
 
@@ -37,28 +40,27 @@ export class ApplicantsListComponent implements OnInit {
     this.jobId = this.route.snapshot.paramMap.get('jobId');
 
     // Fetch job details
-    this.http.get(`http://localhost:5000/jobs/job/${this.jobId}`).subscribe({
+    this.http.get(`${BASE_URL}/jobs/job/${this.jobId}`).subscribe({
       next: request => {
-        console.log('Fetching job', request);
         this.job = request;
       },
       error: request => {
         this.router.navigate(['/applicants']);
-        console.error('Error fetching job details', request?.error?.message);
+        this.snackbarService.openSnackBar(`${request?.error?.message || 'Error fetching job details'}`, 'Close');
+
         this.loading = false; // Stop the loader in case of error
       },
     });
 
     // Fetch applicants
-    this.http.get(`http://localhost:5000/application/applicants/${this.jobId}`).subscribe({
+    this.http.get(`${BASE_URL}/application/applicants/${this.jobId}`).subscribe({
       next: request => {
-        console.log('Fetching applicants', request);
         this.applicants = request;
         this.loading = false; // Data loaded, stop the loader
       },
       error: request => {
         this.router.navigate(['/applicants']);
-        console.error('Error fetching applicants', request?.error?.message);
+        this.snackbarService.openSnackBar(`${request?.error?.message || 'Error fetching applicants'}`, 'Close');
         this.loading = false; // Stop the loader in case of error
       },
     });

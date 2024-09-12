@@ -4,6 +4,8 @@ import { FormBuilder, Validators, FormControl, FormGroupDirective, NgForm } from
 
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthService } from '../auth.service';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -21,9 +23,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class AccountUpdateComponent implements OnInit {
   user: any;
   role: any;
-  // Error message to be displayed after form submission
   submitError: string | null = '';
-  submitSuccess = false;
+  loading = false;
 
   http = inject(HttpClient);
 
@@ -41,6 +42,7 @@ export class AccountUpdateComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private snackbarService: SnackbarService,
     cdr: ChangeDetectorRef
   ) {
     this.cdr = cdr;
@@ -49,7 +51,7 @@ export class AccountUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
-      this.role = user.roles[0];
+      this.role = user?.roles?.[0];
     });
 
     if (this.user) {
@@ -65,13 +67,13 @@ export class AccountUpdateComponent implements OnInit {
   onSubmit(): void {
     if (this.updateAccountForm.invalid) {
       this.submitError = 'Please fill out all required fields.';
-      this.submitSuccess = false;
       return;
     } else {
       this.submitError = '';
     }
 
     if (this.updateAccountForm.status === 'VALID') {
+      this.loading = true;
       const body = JSON.parse(JSON.stringify(this.updateAccountForm.getRawValue()));
 
       if (this.role === 'ORGANIZATION') {
@@ -79,23 +81,25 @@ export class AccountUpdateComponent implements OnInit {
         delete body.lastName;
       }
 
-      this.http.put(`http://localhost:5000/auth/updateUserDetails`, body).subscribe({
+      this.http.put(`${BASE_URL}/auth/updateUserDetails`, body).subscribe({
         next: (response: any) => {
-          console.log('Account updated successfully', response);
-          this.submitSuccess = true;
           this.submitError = '';
 
+          this.snackbarService.openSnackBar('Your account has been updated successfully!', 'Close', 'success');
+
           setTimeout(() => {
+            this.loading = false;
             this.authService.setCurrentUser(response.data);
             this.cdr.detectChanges(); // Manually trigger change detection
-          }, 1500); // 1000 milliseconds delay
-
-          this.cdr.detectChanges(); // Manually trigger change detection
+          }, 300); // 1000 milliseconds delay
         },
         error: response => {
-          console.error('Error during updating', response?.error?.message);
-          this.submitSuccess = false;
-          this.submitError = `${response?.error?.message || 'Update failed. Please try again later.'}`; // Set error message
+          this.snackbarService.openSnackBar(
+            response?.error?.message || 'Update failed. Please try again later.',
+            'Close'
+          );
+
+          this.loading = false;
           this.cdr.detectChanges(); // Manually trigger change detection
         },
       });

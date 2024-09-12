@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
@@ -7,17 +9,21 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ApplicationsComponent implements OnInit {
   applications: any;
-  constructor(private http: HttpClient) {}
+  loading = true;
+  constructor(
+    private http: HttpClient,
+    private snackbarService: SnackbarService
+  ) {}
 
   ngOnInit(): void {
-    this.http.get('http://localhost:5000/application/my-applications').subscribe({
+    this.http.get(`${BASE_URL}/application/my-applications`).subscribe({
       next: request => {
-        console.log('Fetching requests', request);
-
         this.applications = request;
+        this.loading = false;
       },
       error: request => {
-        console.error('Error fetching jobs', request?.error?.message);
+        this.loading = false;
+        this.snackbarService.openSnackBar(request?.error?.message || 'Unable to fetch data', 'Close');
       },
     });
   }

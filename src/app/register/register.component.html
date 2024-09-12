@@ -1,5 +1,5 @@
 <h1 class="my-2 text-center text-[24px] font-semibold">REGISTER FORM</h1>
-<mat-tab-group (selectedTabChange)="onTabChange($event)">
+<mat-tab-group [ngClass]="{ 'pointer-events-none': loading }" (selectedTabChange)="onTabChange($event)">
   <mat-tab label="User">
     <form class="registration-form mt-3 flex w-full flex-col gap-3" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <mat-form-field>
@@ -36,7 +36,9 @@
         <mat-label>Last Name</mat-label>
         <input type="text" matInput placeholder="Last Name" formControlName="lastName" />
       </mat-form-field>
-      <button type="submit" mat-raised-button>Create account</button>
+      <button type="submit" mat-raised-button>
+        <mat-spinner *ngIf="loading" diameter="20" /> <span *ngIf="!loading">Create account</span>
+      </button>
       <span class="my-2 text-right">Already a user? <a class="font-semibold" routerLink="/login">Login</a></span>
       <span class="mb-2 text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
       <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
@@ -72,7 +74,9 @@
           Password is <strong>required</strong>
         </mat-error>
       </mat-form-field>
-      <button type="submit" mat-raised-button>Create organization</button>
+      <button type="submit" mat-raised-button [disabled]="loading">
+        <mat-spinner *ngIf="loading" diameter="20" /> <span *ngIf="!loading">Create organization</span>
+      </button>
       <span class="my-2 text-right">Already a user? <a class="font-semibold" routerLink="/login">Login</a></span>
       <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
       <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"

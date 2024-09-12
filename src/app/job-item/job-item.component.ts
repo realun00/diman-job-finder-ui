@@ -6,6 +6,8 @@ import { JobApplyComponent } from '../job-apply/job-apply.component';
 import { AuthService } from '../auth.service';
 import { JobDeleteComponent } from '../job-delete/job-delete.component';
 import { JobEditComponent } from '../job-edit/job-edit.component';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 
 @Component({
   selector: 'app-job-item',
@@ -20,11 +22,16 @@ export class JobItemComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackbarService: SnackbarService
   ) {}
 
   user: any;
   role: any;
+
+  applyLoading = { state: false };
+  editLoading = { state: false };
+  removeLoading = { state: false };
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
@@ -49,14 +56,13 @@ export class JobItemComponent implements OnInit {
   }
 
   like(): void {
-    this.http.post(`http://localhost:5000/jobs/job/${this.job['_id']}/like`, null).subscribe({
+    this.http.post(`${BASE_URL}/jobs/job/${this.job['_id']}/like`, null).subscribe({
       next: (response: any) => {
-        console.log('Like successful', response);
         this.job.isLiked = response.isLiked;
         this.job.likes = response.likes;
       },
-      error: (error: any) => {
-        console.error('Failed to like job', error);
+      error: (response: any) => {
+        this.snackbarService.openSnackBar(response?.error?.message || 'Like failed.', 'Close');
         // Revert optimistic update if the server request fails
         this.job.isLiked = false;
         this.job.likes -= 1;
@@ -65,14 +71,13 @@ export class JobItemComponent implements OnInit {
   }
 
   unlike(): void {
-    this.http.delete(`http://localhost:5000/jobs/job/${this.job['_id']}/like`).subscribe({
+    this.http.delete(`${BASE_URL}/jobs/job/${this.job['_id']}/like`).subscribe({
       next: (response: any) => {
-        console.log('Unlike successful', response);
         this.job.isLiked = response.isLiked;
         this.job.likes = response.likes;
       },
-      error: (error: any) => {
-        console.error('Failed to unlike job', error);
+      error: (response: any) => {
+        this.snackbarService.openSnackBar(response?.error?.message || 'Unlike failed.', 'Close');
         // Revert optimistic update if the server request fails
         this.job.isLiked = true;
         this.job.likes += 1;
@@ -82,7 +87,7 @@ export class JobItemComponent implements OnInit {
 
   // Method apply for job
   apply(): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
+    this.dialog.open(DialogComponent, {
       data: {
         title: `Apply for ${this.job.title} at ${this.job.authorName}`,
         body: JobApplyComponent,
@@ -90,25 +95,16 @@ export class JobItemComponent implements OnInit {
         formName: 'jobApplyForm',
         confirmButtonText: 'Apply',
         cancelButtonText: 'Cancel',
+        loading: this.applyLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
       width: '50%', // Set the width of the dialog
-    });
-
-    // Handle the result from the dialog
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'confirm') {
-        console.log('Task was confirmed');
-        // Add your logic here, such as sending a task to the backend
-      } else {
-        console.log('Task was canceled');
-      }
     });
   }
 
   // Method for job edit
   edit(): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
+    this.dialog.open(DialogComponent, {
       data: {
         title: `Edit ${this.job.title}`,
         body: JobEditComponent,
@@ -117,19 +113,10 @@ export class JobItemComponent implements OnInit {
         confirmButtonText: 'Edit',
         cancelButtonText: 'Cancel',
         emitter: this.jobEdited,
+        loading: this.editLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
       width: '50%', // Set the width of the dialog
-    });
-
-    // Handle the result from the dialog
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'confirm') {
-        console.log('Task was confirmed');
-        // Add your logic here, such as sending a task to the backend
-      } else {
-        console.log('Task was canceled');
-      }
     });
   }
 
@@ -143,6 +130,7 @@ export class JobItemComponent implements OnInit {
         formName: 'jobDeleteForm',
         confirmButtonText: 'Delete',
         cancelButtonText: 'Cancel',
+        loading: this.removeLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
       width: '50%', // Set the width of the dialog
@@ -151,11 +139,8 @@ export class JobItemComponent implements OnInit {
     // Handle the result from the dialog
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm') {
-        console.log('Task was confirmed');
         // Emit the job's ID to the parent
         this.jobDeleted.emit(this.job._id);
-      } else {
-        console.log('Task was canceled');
       }
     });
   }

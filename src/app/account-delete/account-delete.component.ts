@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 
 @Component({
   selector: 'app-account-delete',
@@ -14,17 +16,21 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class AccountDeleteComponent implements OnInit {
   @Input() dialogRef: MatDialogRef<any> | null = null; // Dialog reference to close the dialog
   @Input() formName: any; // Receive formName
+  @Input() loading: any; // Receive loading
+
   user: any;
 
-  // Error message to be displayed after form submission
   submitError: string | null = null;
-  submitSuccess = false;
 
   http = inject(HttpClient);
   router = inject(Router);
   authService = inject(AuthService);
+  private cdr = inject(ChangeDetectorRef); // Inject ChangeDetectorRef
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private snackbarService: SnackbarService
+  ) {}
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
@@ -33,22 +39,21 @@ export class AccountDeleteComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.http.delete(`http://localhost:5000/auth/user/${this.user?.['_id']}`).subscribe({
-      next: (response: any) => {
-        console.log('Account delete successful', response);
-        this.submitSuccess = true;
+    this.loading.state = true; // Update loading state
+    this.http.delete(`${BASE_URL}/auth/user/${this.user?.['_id']}`).subscribe({
+      next: () => {
+        this.snackbarService.openSnackBar(`${this.user.username} has been deleted successfully!`, 'Close', 'success');
 
         setTimeout(() => {
-          this.submitSuccess = false;
           if (this.dialogRef) {
             this.dialogRef.close('confirm');
+            this.loading.state = false; // Update loading state
           }
-        }, 1500); // 1000 milliseconds delay
+        }, 300); // 1000 milliseconds delay
       },
-      error: response => {
-        console.error('Error during deletion', response?.error?.message);
-        this.submitSuccess = false;
-        this.submitError = `${response?.error?.message || 'Account deletion failed. Please try again later.'}`; // Set error message
+      error: () => {
+        this.loading.state = false; // Update loading state
+        this.snackbarService.openSnackBar('Account deletion failed. Please try again later.', 'Close');
       },
     });
   }

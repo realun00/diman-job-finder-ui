@@ -32,6 +32,10 @@ export class ApplicantItemComponent implements OnInit {
   user: any;
   role: any;
 
+  editLoading = { state: false };
+  activateLoading = { state: false };
+  deactivateLoading = { state: false };
+
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
@@ -41,7 +45,7 @@ export class ApplicantItemComponent implements OnInit {
 
   // Method for job edit
   edit(): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
+    this.dialog.open(DialogComponent, {
       data: {
         title: `Edit ${this.job.title}`,
         body: JobEditComponent,
@@ -50,19 +54,10 @@ export class ApplicantItemComponent implements OnInit {
         confirmButtonText: 'Edit',
         cancelButtonText: 'Cancel',
         emitter: this.jobEdited,
+        loading: this.editLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
       width: '50%', // Set the width of the dialog
-    });
-
-    // Handle the result from the dialog
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'confirm') {
-        console.log('Task was confirmed');
-        // Add your logic here, such as sending a task to the backend
-      } else {
-        console.log('Task was canceled');
-      }
     });
   }
 
@@ -76,6 +71,7 @@ export class ApplicantItemComponent implements OnInit {
         formName: 'jobDeactivateForm',
         confirmButtonText: 'Deactivate',
         cancelButtonText: 'Cancel',
+        loading: this.deactivateLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
       width: '50%', // Set the width of the dialog
@@ -84,11 +80,8 @@ export class ApplicantItemComponent implements OnInit {
     // Handle the result from the dialog
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm') {
-        console.log('Task was confirmed');
         // Emit the job's ID to the parent
         this.jobDeactivated.emit(this.job._id);
-      } else {
-        console.log('Task was canceled');
       }
     });
   }
@@ -102,6 +95,7 @@ export class ApplicantItemComponent implements OnInit {
         formName: 'jobActivateForm',
         confirmButtonText: 'Activate',
         cancelButtonText: 'Cancel',
+        loading: this.activateLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
       width: '50%', // Set the width of the dialog
@@ -110,11 +104,8 @@ export class ApplicantItemComponent implements OnInit {
     // Handle the result from the dialog
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm') {
-        console.log('Task was confirmed');
         // Emit the job's ID to the parent
         this.jobActivated.emit(this.job._id);
-      } else {
-        console.log('Task was canceled');
       }
     });
   }

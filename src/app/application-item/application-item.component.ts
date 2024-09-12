@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 
 @Component({
   selector: 'app-application-item',
@@ -15,6 +17,7 @@ export class ApplicationItemComponent {
 
   constructor(
     private http: HttpClient,
+    private snackbarService: SnackbarService,
     public datePipe: DatePipe
   ) {}
 
@@ -34,14 +37,13 @@ export class ApplicationItemComponent {
   }
 
   like(): void {
-    this.http.post(`http://localhost:5000/jobs/job/${this.application?.job?.['_id']}/like`, null).subscribe({
+    this.http.post(`${BASE_URL}/jobs/job/${this.application?.job?.['_id']}/like`, null).subscribe({
       next: (response: any) => {
-        console.log('Like successful', response);
         this.application.job.isLiked = response.isLiked;
         this.application.job.likes = response.likes;
       },
-      error: (error: any) => {
-        console.error('Failed to like application', error);
+      error: (response: any) => {
+        this.snackbarService.openSnackBar(response?.error?.message || 'Like failed.', 'Close');
         // Revert optimistic update if the server request fails
         this.application.job.isLiked = false;
         this.application.job.likes -= 1;
@@ -50,14 +52,13 @@ export class ApplicationItemComponent {
   }
 
   unlike(): void {
-    this.http.delete(`http://localhost:5000/jobs/job/${this.application?.job?.['_id']}/like`).subscribe({
+    this.http.delete(`${BASE_URL}/jobs/job/${this.application?.job?.['_id']}/like`).subscribe({
       next: (response: any) => {
-        console.log('Unlike successful', response);
         this.application.job.isLiked = response.isLiked;
         this.application.job.likes = response.likes;
       },
-      error: (error: any) => {
-        console.error('Failed to unlike application', error);
+      error: (response: any) => {
+        this.snackbarService.openSnackBar(response?.error?.message || 'Unlike failed.', 'Close');
         // Revert optimistic update if the server request fails
         this.application.job.isLiked = true;
         this.application.job.likes += 1;

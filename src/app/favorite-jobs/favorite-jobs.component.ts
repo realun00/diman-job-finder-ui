@@ -1,6 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { HttpClient } from '@angular/common/http';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 
 @Component({
   selector: 'app-favorite-jobs',
@@ -10,17 +12,23 @@ import { HttpClient } from '@angular/common/http';
 export class FavoriteJobsComponent implements OnInit {
   http = inject(HttpClient);
   jobs: any;
-  constructor(private authService: AuthService) {}
+  loading = true;
+
+  constructor(
+    private authService: AuthService,
+    private snackbarService: SnackbarService
+  ) {}
 
   ngOnInit(): void {
-    this.http.get('http://localhost:5000/jobs/favorites').subscribe({
+    this.http.get(`${BASE_URL}/jobs/favorites`).subscribe({
       next: request => {
-        console.log('Fetching requests', request);
+        this.loading = false;
 
         this.jobs = request;
       },
       error: request => {
-        console.error('Error fetching jobs', request?.error?.message);
+        this.loading = false;
+        this.snackbarService.openSnackBar(request?.error?.message || 'Unable to fetch data', 'Close');
       },
     });
   }

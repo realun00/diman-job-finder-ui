@@ -5,6 +5,7 @@ import { FormBuilder, Validators, FormControl, FormGroupDirective, NgForm } from
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { BASE_URL } from '../app.contants';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -33,6 +34,9 @@ export class LoginComponent {
     password: ['', Validators.required],
   });
 
+  // Loader flag
+  loading = false;
+
   matcher = new MyErrorStateMatcher();
 
   constructor(private fb: FormBuilder) {}
@@ -47,34 +51,33 @@ export class LoginComponent {
     }
 
     if (this.loginForm.status === 'VALID') {
-      console.log('submitted form', this.loginForm.getRawValue());
-      this.http.post('http://localhost:5000/auth/login', this.loginForm.getRawValue()).subscribe({
+      this.loading = true;
+      this.http.post(`${BASE_URL}/auth/login`, this.loginForm.getRawValue()).subscribe({
         next: (response: any) => {
-          console.log('Login successful', response);
           this.submitSuccess = true;
           localStorage.setItem('token', response?.token);
 
           // Fetch user details after login
           this.authService.fetchUserDetails().subscribe({
             next: userDetails => {
-              console.log('User details fetched', userDetails);
               this.authService.setCurrentUser(userDetails);
 
               // Navigate after fetching user details
               setTimeout(() => {
+                this.loading = false;
                 this.submitSuccess = false;
                 this.router.navigateByUrl('/');
-              }, 1000); // 1000 milliseconds delay
+              }, 300); // 1000 milliseconds delay
             },
             error: error => {
-              console.error('Error fetching user details', error?.error?.message);
+              this.loading = false;
               this.submitSuccess = false;
-              this.submitError = 'Failed to fetch user details. Please try again later.';
+              this.submitError = error?.error?.message || 'Failed to fetch user details. Please try again later.';
             },
           });
         },
         error: response => {
-          console.error('Error during login', response?.error?.message);
+          this.loading = false;
           this.submitSuccess = false;
           this.submitError = `${response?.error?.message || 'Login failed. Please try again later.'}`; // Set error message
         },

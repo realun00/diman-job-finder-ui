@@ -4,6 +4,8 @@ import { FormBuilder, Validators, FormControl, FormGroupDirective, NgForm } from
 
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthService } from '../auth.service';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -20,9 +22,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class ChangePasswordComponent implements OnInit {
   user: any;
-  // Error message to be displayed after form submission
   submitError: string | null = '';
-  submitSuccess = false;
+  loading = false;
 
   http = inject(HttpClient);
 
@@ -39,6 +40,7 @@ export class ChangePasswordComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private snackbarService: SnackbarService,
     cdr: ChangeDetectorRef
   ) {
     this.cdr = cdr;
@@ -53,40 +55,45 @@ export class ChangePasswordComponent implements OnInit {
   onSubmit(): void {
     if (this.changePasswordForm.invalid) {
       this.submitError = 'Please fill out all required fields.';
-      this.submitSuccess = false;
       return;
     } else {
       this.submitError = '';
     }
 
     if (this.changePasswordForm.status === 'VALID') {
+      this.loading = true;
       if (this.changePasswordForm.getRawValue().newPassword !== this.changePasswordForm.getRawValue().reNewPassword) {
         this.submitError = "New password and re new password don't match";
+        this.loading = false;
         return;
       }
 
       if (this.changePasswordForm.getRawValue().newPassword === this.changePasswordForm.getRawValue().oldPassword) {
         this.submitError = 'The old and new passwords should be different!';
+        this.loading = false;
         return;
       }
 
-      this.http.patch(`http://localhost:5000/auth/changePassword`, this.changePasswordForm.getRawValue()).subscribe({
-        next: (response: any) => {
-          console.log('Password changed successfully', response);
-          this.submitSuccess = true;
+      this.http.patch(`${BASE_URL}/auth/changePassword`, this.changePasswordForm.getRawValue()).subscribe({
+        next: () => {
           this.submitError = '';
-          this.cdr.detectChanges(); // Manually trigger change detection
 
-          // Navigate after fetching user details
+          this.snackbarService.openSnackBar('Your password has been changed successfully!', 'Close', 'success');
+
           setTimeout(() => {
-            this.submitSuccess = false;
+            this.loading = false;
             this.logout();
-          }, 1500); // 1000 milliseconds delay
+          }, 300);
+
+          this.cdr.detectChanges(); // Manually trigger change detection
         },
         error: response => {
-          console.error('Error during changing password', response?.error?.message);
-          this.submitSuccess = false;
-          this.submitError = `${response?.error?.message || 'Change password failed. Please try again later.'}`; // Set error message
+          this.snackbarService.openSnackBar(
+            response?.error?.message || 'Change password failed. Please try again later.',
+            'Close'
+          );
+
+          this.loading = false;
           this.cdr.detectChanges(); // Manually trigger change detection
         },
       });

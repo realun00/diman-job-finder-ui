@@ -1,7 +1,12 @@
-<h3 class="mb-3 text-[36px] font-bold">Favorite jobs</h3>
-<ul class="flex w-full flex-col gap-5">
-  <li *ngFor="let job of jobs; trackBy: trackById">
-    <app-job-item [job]="job"></app-job-item>
-  </li>
-</ul>
-<p *ngIf="jobs?.length === 0" class="text-[24px] font-semibold">No favorite jobs...</p>
+<div *ngIf="loading" class="flex h-[90vh] items-center justify-center">
+  <mat-spinner diameter="60"></mat-spinner>
+</div>
+<div *ngIf="!loading">
+  <h3 class="mb-3 text-[36px] font-bold">Favorite jobs</h3>
+  <ul class="flex w-full flex-col gap-5">
+    <li *ngFor="let job of jobs; trackBy: trackById">
+      <app-job-item [job]="job"></app-job-item>
+    </li>
+  </ul>
+  <p *ngIf="!jobs?.length" class="text-[24px] font-semibold">No favorite jobs...</p>
+</div>

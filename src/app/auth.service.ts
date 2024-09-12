@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
+import { BASE_URL } from './app.contants';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +37,7 @@ export class AuthService {
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get('http://localhost:5000/auth/userDetails', { headers });
+    return this.http.get(`${BASE_URL}/auth/userDetails`, { headers });
   }
 
   // Method to get user data

@@ -1,8 +1,13 @@
-<h3 class="mb-5 text-[36px] font-bold">Personal job applications</h3>
+<div *ngIf="loading" class="flex h-[90vh] items-center justify-center">
+  <mat-spinner diameter="60"></mat-spinner>
+</div>
+<div *ngIf="!loading">
+  <h3 class="mb-5 text-[36px] font-bold">Personal job applications</h3>
 
-<ul class="flex w-full flex-col gap-5">
-  <li *ngFor="let application of applications; trackBy: trackById">
-    <app-application-item [application]="application"></app-application-item>
-  </li>
-</ul>
-<p *ngIf="applications?.length === 0" class="text-[24px] font-semibold">No applications yet...</p>
+  <ul class="flex w-full flex-col gap-5">
+    <li *ngFor="let application of applications; trackBy: trackById">
+      <app-application-item [application]="application"></app-application-item>
+    </li>
+  </ul>
+  <p *ngIf="!applications?.length" class="text-[24px] font-semibold">No applications yet...</p>
+</div>

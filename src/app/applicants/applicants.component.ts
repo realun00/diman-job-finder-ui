@@ -1,6 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { HttpClient } from '@angular/common/http';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 
 @Component({
   selector: 'app-applicants',
@@ -12,8 +14,12 @@ export class ApplicantsComponent implements OnInit {
   jobs: any;
   user: any;
   role: any;
+  loading = true;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private snackbarService: SnackbarService
+  ) {}
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
@@ -21,14 +27,14 @@ export class ApplicantsComponent implements OnInit {
       this.role = user?.roles[0];
     });
 
-    this.http.get('http://localhost:5000/jobs/job/organization').subscribe({
+    this.http.get(`${BASE_URL}/jobs/job/organization`).subscribe({
       next: request => {
-        console.log('Fetching requests', request);
-
         this.jobs = request;
+        this.loading = false;
       },
       error: request => {
-        console.error('Error fetching jobs', request?.error?.message);
+        this.snackbarService.openSnackBar(request?.error?.message || 'Unable to fetch data', 'Close');
+        this.loading = false;
       },
     });
   }

@@ -1,4 +1,8 @@
-<form class="login-form flex w-full flex-col gap-3" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<form
+  [ngClass]="{ 'pointer-events-none': loading }"
+  class="login-form flex w-full flex-col gap-3"
+  [formGroup]="loginForm"
+  (ngSubmit)="onSubmit()">
   <h1 class="my-2 text-center text-[24px] font-semibold">LOGIN FORM</h1>
   <mat-form-field>
     <mat-label>Username/email</mat-label>
@@ -14,8 +18,12 @@
       Password is <strong>required</strong>
     </mat-error>
   </mat-form-field>
-  <button type="submit" mat-raised-button>Login</button>
+  <button type="submit" mat-raised-button>
+    <mat-spinner *ngIf="loading" diameter="20" /> <span *ngIf="!loading">Login</span>
+  </button>
   <span class="my-2">Don't have an account? <a class="font-semibold" routerLink="/register">Register</a></span>
   <span class="mb-2 justify-end text-center font-semibold text-red" *ngIf="submitError">{{ submitError }}</span>
-  <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess">You logged in successfully!</span>
+  <span class="mb-2 text-center font-semibold text-light-green" *ngIf="submitSuccess"
+    >You have successfully logged in!</span
+  >
 </form>

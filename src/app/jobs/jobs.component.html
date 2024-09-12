@@ -1,11 +1,16 @@
-<div *ngIf="role === 'ORGANIZATION'" class="flex justify-end">
-  <button color="primary" mat-raised-button class="mb-5 text-right font-semibold" (click)="add()">
-    <mat-icon>note_add</mat-icon> Add new job
-  </button>
+<div *ngIf="loading" class="flex h-[90vh] items-center justify-center">
+  <mat-spinner diameter="60"></mat-spinner>
 </div>
-<ul class="flex w-full flex-col gap-5">
-  <li *ngFor="let job of jobs; trackBy: trackById">
-    <app-job-item (jobDeleted)="onJobDeleted($event)" (jobEdited)="onJobEdited($event)" [job]="job"></app-job-item>
-  </li>
-</ul>
-<p *ngIf="jobs?.length === 0" class="text-[24px] font-semibold">No jobs...</p>
+<div *ngIf="!loading">
+  <div *ngIf="role === 'ORGANIZATION'" class="flex justify-end">
+    <button color="primary" mat-raised-button class="mb-5 text-right font-semibold" (click)="add()">
+      <mat-icon>note_add</mat-icon> Add new job
+    </button>
+  </div>
+  <ul class="flex w-full flex-col gap-5">
+    <li *ngFor="let job of jobs; trackBy: trackById">
+      <app-job-item (jobDeleted)="onJobDeleted($event)" (jobEdited)="onJobEdited($event)" [job]="job"></app-job-item>
+    </li>
+  </ul>
+  <p *ngIf="!jobs?.length" class="text-[24px] font-semibold">No jobs...</p>
+</div>

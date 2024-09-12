@@ -16,6 +16,8 @@ export class AccountComponent implements OnInit {
   user: any;
   role: any;
 
+  deleteLoading = { state: false }; // Object reference in parent
+
   constructor(
     private authService: AuthService,
     private dialog: MatDialog
@@ -38,6 +40,7 @@ export class AccountComponent implements OnInit {
         confirmButtonText: 'Delete',
         cancelButtonText: 'Cancel',
         dialogData: this.user,
+        loading: this.deleteLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
       width: '50%', // Set the width of the dialog
@@ -46,10 +49,7 @@ export class AccountComponent implements OnInit {
     // Handle the result from the dialog
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm') {
-        console.log('Task was confirmed');
         this.logout();
-      } else {
-        console.log('Task was canceled');
       }
     });
   }

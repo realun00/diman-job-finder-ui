@@ -31,6 +31,8 @@ export class ApplicantListItemComponent implements OnInit {
   user: any;
   role: any;
 
+  actionLoading = { state: false };
+
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
@@ -48,6 +50,7 @@ export class ApplicantListItemComponent implements OnInit {
         formName: 'applicationAcceptForm',
         confirmButtonText: 'Accept',
         cancelButtonText: 'Cancel',
+        loading: this.actionLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
       width: '50%', // Set the width of the dialog
@@ -56,11 +59,8 @@ export class ApplicantListItemComponent implements OnInit {
     // Handle the result from the dialog
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm') {
-        console.log('Task was confirmed');
         // Emit the job's ID to the parent
         this.applicantAccepted.emit(this.applicant._id);
-      } else {
-        console.log('Task was canceled');
       }
     });
   }
@@ -75,6 +75,7 @@ export class ApplicantListItemComponent implements OnInit {
         formName: 'applicationRejectForm',
         confirmButtonText: 'Reject',
         cancelButtonText: 'Cancel',
+        loading: this.actionLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
       width: '50%', // Set the width of the dialog
@@ -83,11 +84,8 @@ export class ApplicantListItemComponent implements OnInit {
     // Handle the result from the dialog
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm') {
-        console.log('Task was confirmed');
         // Emit the job's ID to the parent
         this.applicantRejected.emit(this.applicant._id);
-      } else {
-        console.log('Task was canceled');
       }
     });
   }

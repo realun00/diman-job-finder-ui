@@ -6,6 +6,8 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -24,6 +26,8 @@ export class JobEditComponent implements OnInit {
   @Input() job: any; // Receive job data
   @Input() dialogRef: MatDialogRef<any> | null = null; // Dialog reference to close the dialog
   @Input() formName: any; // Receive formName
+  @Input() loading: any;
+
   @Output() emitter = new EventEmitter<any>(); // Emit the updated job data
 
   categories: any[] = [
@@ -40,7 +44,6 @@ export class JobEditComponent implements OnInit {
 
   // Error message to be displayed after form submission
   submitError: string | null = null;
-  submitSuccess = false;
 
   http = inject(HttpClient);
   router = inject(Router);
@@ -55,7 +58,10 @@ export class JobEditComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private snackbarService: SnackbarService
+  ) {}
 
   ngOnInit(): void {
     // Initialize the form with job data after the component is initialized
@@ -78,32 +84,38 @@ export class JobEditComponent implements OnInit {
     }
     if (this.jobEditForm.invalid) {
       this.submitError = 'Please fill out all required fields.';
-      this.submitSuccess = false;
       return;
     } else {
       this.submitError = '';
     }
 
     if (this.jobEditForm.status === 'VALID') {
-      this.http.put(`http://localhost:5000/jobs/job/${this.job?.['_id']}`, this.jobEditForm.getRawValue()).subscribe({
-        next: (response: any) => {
-          console.log('Job editted successful', response);
-          this.submitSuccess = true;
+      this.loading.state = true;
+      this.http.put(`${BASE_URL}/jobs/job/${this.job?.['_id']}`, this.jobEditForm.getRawValue()).subscribe({
+        next: () => {
+          this.snackbarService.openSnackBar(
+            `${this.job.title} has been edited successfully!`,
+            'Close',
+            'success',
+            5000
+          );
 
           // Emit the updated job data after a successful response
           this.emitter.emit({ ...this.job, ...this.jobEditForm.getRawValue() });
 
           setTimeout(() => {
-            this.submitSuccess = false;
+            this.loading.state = false;
             if (this.dialogRef) {
               this.dialogRef.close('confirm');
             }
-          }, 1500); // 1000 milliseconds delay
+          }, 300);
         },
         error: response => {
-          console.error('Error during editing', response?.error?.message);
-          this.submitSuccess = false;
-          this.submitError = `${response?.error?.message || 'Job editing failed. Please try again later.'}`; // Set error message
+          this.loading.state = false;
+          this.snackbarService.openSnackBar(
+            `${response?.error?.message || 'Job editing failed. Please try again later.'}`,
+            'Close'
+          );
         },
       });
     }

@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { DialogComponent } from '../dialog/dialog.component';
 import { JobAddComponent } from '../job-add/job-add.component';
 import { MatDialog } from '@angular/material/dialog';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 
 @Component({
   selector: 'app-jobs',
@@ -15,10 +17,14 @@ export class JobsComponent implements OnInit {
   jobs: any;
   user: any;
   role: any;
+  // Loader flag
+  loading = true;
+  addLoading = { state: false };
 
   constructor(
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -27,21 +33,22 @@ export class JobsComponent implements OnInit {
       this.role = user?.roles[0];
     });
 
-    this.http.get('http://localhost:5000/jobs/job').subscribe({
+    this.http.get(`${BASE_URL}/jobs/job`).subscribe({
       next: request => {
-        console.log('Fetching requests', request);
-
         this.jobs = request;
+        this.loading = false;
       },
       error: request => {
         console.error('Error fetching jobs', request?.error?.message);
+        this.snackbarService.openSnackBar(request?.error?.message || 'Unable to fetch data', 'Close');
+        this.loading = false;
       },
     });
   }
 
   // Method for job edit
   add(): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
+    this.dialog.open(DialogComponent, {
       data: {
         title: `Add job`,
         body: JobAddComponent,
@@ -50,19 +57,10 @@ export class JobsComponent implements OnInit {
         confirmButtonText: 'Add',
         cancelButtonText: 'Cancel',
         emitter: this.onJobAdded.bind(this),
+        loading: this.addLoading,
       },
       disableClose: true, // Prevent closing when clicking outside the dialog
       width: '50%', // Set the width of the dialog
-    });
-
-    // Handle the result from the dialog
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'confirm') {
-        console.log('Task was confirmed');
-        // Add your logic here, such as sending a task to the backend
-      } else {
-        console.log('Task was canceled');
-      }
     });
   }
 

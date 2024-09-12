@@ -1,5 +1,5 @@
 <div *ngIf="loading" class="flex h-[90vh] items-center justify-center">
-  <mat-spinner></mat-spinner>
+  <mat-spinner diameter="60"></mat-spinner>
 </div>
 <div *ngIf="!loading">
   <div class="flex flex-wrap items-center justify-between">
@@ -16,5 +16,5 @@
         [applicant]="applicant"></app-applicant-list-item>
     </li>
   </ul>
-  <p *ngIf="applicants?.length === 0" class="text-[24px] font-semibold">No applicants yet...</p>
+  <p *ngIf="!applicants?.length" class="text-[24px] font-semibold">No applicants yet...</p>
 </div>

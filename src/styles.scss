@@ -126,3 +126,32 @@ a:hover {
     color: #666;
   }
 }
+
+.error-snackbar {
+  .mdc-snackbar__surface {
+    background-color: #ff2222 !important; /* Green background */
+  }
+
+  .mdc-button__label,
+  .mat-mdc-snack-bar-label {
+    color: #fff !important;
+  }
+}
+
+.success-snackbar {
+  .mdc-snackbar__surface {
+    background-color: #4caf50 !important; /* Green background */
+  }
+
+  .mdc-button__label,
+  .mat-mdc-snack-bar-label {
+    color: #fff !important;
+  }
+}
+
+.dialog-btn {
+  min-width: 80px !important;
+  .mat-mdc-progress-spinner {
+    --mdc-circular-progress-active-indicator-color: white;
+  }
+}

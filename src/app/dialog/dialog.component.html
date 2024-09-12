@@ -2,7 +2,7 @@
 <mat-dialog-content>
   <ng-template #dynamicComponentContainer></ng-template>
 </mat-dialog-content>
-<mat-dialog-actions align="end" class="gap-2">
+<mat-dialog-actions align="end" class="gap-2" [ngClass]="{ 'pointer-events-none': data.loading?.state }">
   <button mat-button mat-dialog-close mat-raised-button (click)="onActionClick('cancel')">
     {{ data.cancelButtonText || 'Cancel' }}
   </button>
@@ -13,7 +13,9 @@
     mat-button
     cdkFocusInitial
     mat-raised-button
+    class="dialog-btn"
     (click)="onActionClick('confirm')">
-    {{ data.confirmButtonText || 'Confirm' }}
+    <mat-spinner *ngIf="data.loading?.state" diameter="20" />
+    <span *ngIf="!data.loading?.state">{{ data.confirmButtonText || 'Confirm' }}</span>
   </button>
 </mat-dialog-actions>

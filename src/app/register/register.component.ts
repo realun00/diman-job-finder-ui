@@ -5,6 +5,7 @@ import { FormBuilder, Validators, FormControl, FormGroupDirective, NgForm } from
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
+import { BASE_URL } from '../app.contants';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -23,6 +24,9 @@ export class RegisterComponent {
   submitError: string | null = null;
   submitSuccess = false;
   currentTab = 0;
+
+  // Loader flag
+  loading = false;
 
   http = inject(HttpClient);
   router = inject(Router);
@@ -50,21 +54,19 @@ export class RegisterComponent {
     }
 
     if (this.registerForm.status === 'VALID') {
-      console.log('submitted form', this.registerForm.getRawValue());
-      this.http.post('http://localhost:5000/auth/registration', this.registerForm.value).subscribe({
-        next: response => {
-          console.log('Registration successful', response);
-          // this.resetComponentState();
+      this.loading = true;
+      this.http.post(`${BASE_URL}/auth/registration`, this.registerForm.value).subscribe({
+        next: () => {
           this.submitSuccess = true;
-
           // Set a timeout before navigating
           setTimeout(() => {
+            this.loading = false;
             this.submitSuccess = false;
             this.router.navigateByUrl('/login');
-          }, 1000); // 500 milliseconds delay
+          }, 1000);
         },
         error: response => {
-          console.error('Error during registration', response?.error?.message);
+          this.loading = false;
           this.submitSuccess = false;
           this.submitError = `${response?.error?.message || 'Registration failed. Please try again later.'}`; // Set error message
         },

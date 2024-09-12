@@ -6,6 +6,8 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { BASE_URL } from '../app.contants';
+import { SnackbarService } from '../snackbar.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -24,6 +26,7 @@ export class JobAddComponent {
   @Input() dialogRef: MatDialogRef<any> | null = null; // Dialog reference to close the dialog
   @Input() formName: any; // Receive formName
   @Input() emitter: any;
+  @Input() loading: any;
 
   categories: any[] = [
     { value: 'IT', viewValue: 'IT' },
@@ -39,7 +42,6 @@ export class JobAddComponent {
 
   // Error message to be displayed after form submission
   submitError: string | null = null;
-  submitSuccess = false;
 
   http = inject(HttpClient);
   router = inject(Router);
@@ -54,45 +56,57 @@ export class JobAddComponent {
 
   matcher = new MyErrorStateMatcher();
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private snackbarService: SnackbarService
+  ) {}
 
   onSubmit(): void {
     if (this.jobAddForm.invalid) {
       this.submitError = 'Please fill out all required fields.';
-      this.submitSuccess = false;
       return;
     } else {
       this.submitError = '';
     }
 
     if (this.jobAddForm.status === 'VALID') {
-      this.http.post(`http://localhost:5000/jobs/add`, this.jobAddForm.getRawValue()).subscribe({
-        next: (response: any) => {
-          console.log('Job added successfully', response);
-          this.submitSuccess = true;
+      this.loading.state = true;
 
-          this.http.get(`http://localhost:5000/jobs/job`).subscribe({
+      this.http.post(`${BASE_URL}/jobs/add`, this.jobAddForm.getRawValue()).subscribe({
+        next: () => {
+          this.snackbarService.openSnackBar(
+            `${this.jobAddForm.getRawValue().title} has been added successfully!`,
+            'Close',
+            'success',
+            5000
+          );
+
+          this.http.get(`${BASE_URL}/jobs/job`).subscribe({
             next: (response: any) => {
               this.emitter(response);
 
               setTimeout(() => {
-                this.submitSuccess = false;
+                this.loading.state = false;
                 if (this.dialogRef) {
                   this.dialogRef.close('confirm');
                 }
-              }, 1500); // 1000 milliseconds delay
+              }, 300);
             },
             error: response => {
-              console.error('Error during retrieving jobs', response?.error?.message);
-              this.submitSuccess = false;
-              this.submitError = `${response?.error?.message || 'Jobs retrieving failed. Please try again later.'}`; // Set error message
+              this.loading.state = false;
+              this.snackbarService.openSnackBar(
+                `${response?.error?.message || 'Jobs retrieving failed. Please try again later.'}`,
+                'Close'
+              );
             },
           });
         },
         error: response => {
-          console.error('Error during adding', response?.error?.message);
-          this.submitSuccess = false;
-          this.submitError = `${response?.error?.message || 'Job adding failed. Please try again later.'}`; // Set error message
+          this.loading.state = false;
+          this.snackbarService.openSnackBar(
+            `${response?.error?.message || 'Job adding failed. Please try again later.'}`,
+            'Close'
+          );
         },
       });
     }
