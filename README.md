@@ -16,7 +16,7 @@ Author: Dimitar Anastasov - Diman
 4. Husky
 5. Lint Staged
 6. Commit Lint
-7. Conventional Commits
+7. Conventional Commits (will not let you to commit without the rules applied, more on: https://www.conventionalcommits.org/en/v1.0.0/)
 
 Format on save is turned on so enjoy it :)
 
