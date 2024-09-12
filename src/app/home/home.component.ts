@@ -21,6 +21,8 @@ export class HomeComponent implements OnInit {
     });
     if (this.user) {
       this.router.navigateByUrl('/jobs');
+    } else {
+      this.router.navigateByUrl('/login');
     }
   }
 }
