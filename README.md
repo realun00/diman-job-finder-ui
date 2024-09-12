@@ -11,13 +11,14 @@ DEMO ON: https://diman-job-finder-ui.vercel.app/
 
 ## What's included
 
-1. TailwindCSS
-2. ESLint with support for TS
-3. Prettier (will override the current settings)
-4. Husky
-5. Lint Staged
-6. Commit Lint
-7. Conventional Commits (will not let you to commit without the rules applied, more on: https://www.conventionalcommits.org/en/v1.0.0/)
+1. Angular Material
+2. TailwindCSS
+3. ESLint with support for TS
+4. Prettier (will override the current settings)
+5. Husky
+6. Lint Staged
+7. Commit Lint
+8. Conventional Commits (will not let you to commit without the rules applied, more on: https://www.conventionalcommits.org/en/v1.0.0/)
 
 Format on save is turned on so enjoy it :)
 
